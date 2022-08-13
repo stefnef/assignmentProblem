@@ -1,25 +1,26 @@
 package de.hoersendung.steffen.assignmentProblem.service
 
-import de.hoersendung.steffen.assignmentProblem.defaults.testingCapacitiesFile
-import de.hoersendung.steffen.assignmentProblem.defaults.testingCapacitiesMissing2ndLineFile
-import de.hoersendung.steffen.assignmentProblem.defaults.testingCapacitiesWrongNumberFile
-import de.hoersendung.steffen.assignmentProblem.defaults.testingEmptyFile
+import de.hoersendung.steffen.assignmentProblem.defaults.*
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.Capacity
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import de.hoersendung.steffen.assignmentProblem.repository.SubjectRepository
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.given
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 
 internal class SubjectApplicationServiceImplTest {
 
     private val repository: SubjectRepository = mock()
-    private val subjectService = SubjectApplicationServiceImpl(repository)
+    private val subjectFileWriter : SubjectFileWriter = mock()
+    private val subjectService = SubjectApplicationServiceImpl(repository, subjectFileWriter)
 
     @Test
     internal fun `should add five subjects to repository`() {
+        given(repository.getAll()).willReturn(threeSubjects())
+
         subjectService.loadCapacities(testingCapacitiesFile())
 
         verify(repository).add(Subject(SubjectName("Sportkurs_1"), Capacity(1)))
@@ -51,5 +52,14 @@ internal class SubjectApplicationServiceImplTest {
             subjectService.loadCapacities(testingCapacitiesWrongNumberFile())
         }.isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("file of capacities differs in number of subjects (3) and number of capacities (2)")
+    }
+
+    @Test
+    internal fun `should write subjects to data file`() {
+        given(repository.getAll()).willReturn(threeSubjects())
+
+        subjectService.loadCapacities(testingCapacitiesFile())
+
+        verify(subjectFileWriter).write(threeSubjects())
     }
 }

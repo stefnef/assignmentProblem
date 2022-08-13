@@ -5,7 +5,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class SubjectRepositoryImpl : SubjectRepository {
+
     override fun add(subject: Subject) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAll(): List<Subject> {
         TODO("Not yet implemented")
     }
 }

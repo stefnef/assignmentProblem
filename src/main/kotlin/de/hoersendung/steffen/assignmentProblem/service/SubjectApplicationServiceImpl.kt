@@ -10,7 +10,8 @@ import java.io.File
 
 @Service
 class SubjectApplicationServiceImpl(
-    private val repository : SubjectRepository
+    private val repository : SubjectRepository,
+    private val subjectFileWriter : SubjectFileWriter
 ) : SubjectApplicationService {
 
     override fun loadCapacities(capacities: File) {
@@ -27,7 +28,9 @@ class SubjectApplicationServiceImpl(
                 repository.add(Subject(SubjectName(subjectName), Capacity(capacityValues[index].toInt())))
             }
 
-        }
+        } //TODO move out of apply block
+
+        subjectFileWriter.write(repository.getAll())
     }
 
     private fun BufferedReader.parseLine(errorMessage: String): List<String> {
