@@ -1,24 +1,29 @@
 package de.hoersendung.steffen.assignmentProblem
 
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
+import org.mockito.Mockito.*
 import org.slf4j.Logger
 import org.springframework.boot.DefaultApplicationArguments
 
 internal class AssignmentProblemApplicationTest {
-    private val logger : Logger = Mockito.mock(Logger::class.java)
+
+    private val logger : Logger = mock(Logger::class.java)
     private val assignmentProblemApplication = AssignmentProblemApplication(logger)
+
+    private val basePath = "src/test/files"
 
     @Test
     fun `it should accept a priority and capacity arguments`() {
-        val args = DefaultApplicationArguments("--prio=\"prio.csv\"", "--cap=\"subjects.csv\"")
+        val args = DefaultApplicationArguments("--prio=${basePath}/priorities.csv", "--cap=${basePath}/capacities.csv")
+
         assignmentProblemApplication.run(args)
-        Mockito.verify(logger, Mockito.never()).error(Mockito.any())
+
+        verify(logger, never()).error(any())
     }
 
     @Test
     fun `it should log usage if priority argument is missing`() {
-        val args = DefaultApplicationArguments("--neverEver=3", "--cap=\"subjects.csv\"")
+        val args = DefaultApplicationArguments("--neverEver=3", "--cap=\"capacities.csv\"")
         assignmentProblemApplication.run(args)
         verifyThatUsageMessageWasCalled()
     }
@@ -43,9 +48,28 @@ internal class AssignmentProblemApplicationTest {
         verifyThatUsageMessageWasCalled()
     }
 
+    @Test
+    internal fun `should log that priorities file does not exist`() {
+        val args = DefaultApplicationArguments("--prio=i-do-not-exist.csv", "--cap=capacities.csv")
+
+        assignmentProblemApplication.run(args)
+
+        verify(logger).error("File \"i-do-not-exist.csv\" was not found")
+        verify(logger, never()).error("File \"capacities.csv\" was not found")
+    }
+
+    @Test
+    internal fun `should log that capacities file does not exist`() {
+        val args = DefaultApplicationArguments("--prio=${basePath}/priorities.csv", "--cap=never-existed.csv")
+
+        assignmentProblemApplication.run(args)
+
+        verify(logger).error("File \"never-existed.csv\" was not found")
+    }
+
     private fun verifyThatUsageMessageWasCalled() {
-        Mockito.verify(logger).error("wrong or missing arguments")
-        Mockito.verify(logger).error("usage: --prio=\"<path to file of priorities>\" --cap=\"<path to file of capacities>\"")
-        Mockito.verify(logger).error("note that both files have to be in csv format")
+        verify(logger).error("wrong or missing arguments")
+        verify(logger).error("usage: --prio=\"<path to file of priorities>\" --cap=\"<path to file of capacities>\"")
+        verify(logger).error("note that both files have to be in csv format")
     }
 }
