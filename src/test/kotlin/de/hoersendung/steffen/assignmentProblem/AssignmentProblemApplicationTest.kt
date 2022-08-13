@@ -76,6 +76,16 @@ internal class AssignmentProblemApplicationTest {
         verify(logger).error("File \"never-existed.csv\" was not found")
     }
 
+    @Test
+    internal fun `it should propagate Exceptions`() {
+        val args = DefaultApplicationArguments("--prio=${basePath}/priorities.csv", "--cap=${basePath}/capacities.csv")
+        given(applicationService.solveProblem(any(), any())).willThrow(IllegalArgumentException("Fake"))
+
+        assignmentProblemApplication.run(args)
+
+        verify(logger).error("Fake")
+    }
+
     private fun verifyThatUsageMessageWasCalled() {
         verify(logger).error("wrong or missing arguments")
         verify(logger).error("usage: --prio=\"<path to file of priorities>\" --cap=\"<path to file of capacities>\"")

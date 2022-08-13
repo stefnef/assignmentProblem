@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service
 import java.io.File
 
 @Service
-class AssignmentProblemApplicationServiceImpl : AssignmentProblemApplicationService {
+class AssignmentProblemApplicationServiceImpl(
+    private val subjectApplicationService: SubjectApplicationService) : AssignmentProblemApplicationService {
+
     override fun solveProblem(priorities: File, capacities: File) {
-        TODO("Not yet implemented")
+        subjectApplicationService.loadCapacities(capacities)
     }
 }

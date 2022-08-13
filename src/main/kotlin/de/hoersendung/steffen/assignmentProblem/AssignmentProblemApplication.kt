@@ -14,13 +14,18 @@ class AssignmentProblemApplication(
     private val applicationService: AssignmentProblemApplicationService) : ApplicationRunner {
 
     override fun run(args: ApplicationArguments?) {
-        if(!isArgumentListValid(args)) {
+        if (!isArgumentListValid(args)) {
             return
         }
 
         val priorities = getFile(args!!, "prio") ?: return
         val capacities = getFile(args, "cap") ?: return
-       applicationService.solveProblem(priorities, capacities)
+        try {
+            applicationService.solveProblem(priorities, capacities)
+        } catch (e: Exception) {
+            logger.error(e.message)
+        }
+
     }
 
     private fun getFile(args: ApplicationArguments, optionName: String) : File? {
