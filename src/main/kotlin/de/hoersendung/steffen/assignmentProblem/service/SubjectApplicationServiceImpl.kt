@@ -28,7 +28,7 @@ class SubjectApplicationServiceImpl(
                 repository.add(Subject(SubjectName(subjectName), Capacity(capacityValues[index].toInt())))
             }
 
-        } //TODO move out of apply block
+        }
 
         subjectFileWriter.write(repository.getAll())
     }
