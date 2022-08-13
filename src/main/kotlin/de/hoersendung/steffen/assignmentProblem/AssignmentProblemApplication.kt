@@ -1,5 +1,6 @@
 package de.hoersendung.steffen.assignmentProblem
 
+import de.hoersendung.steffen.assignmentProblem.service.AssignmentProblemApplicationService
 import org.slf4j.Logger
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
@@ -8,15 +9,18 @@ import org.springframework.boot.runApplication
 import java.io.File
 
 @SpringBootApplication
-class AssignmentProblemApplication(private val logger : Logger) : ApplicationRunner {
+class AssignmentProblemApplication(
+    private val logger : Logger,
+    private val applicationService: AssignmentProblemApplicationService) : ApplicationRunner {
 
     override fun run(args: ApplicationArguments?) {
         if(!isArgumentListValid(args)) {
             return
         }
 
-        getFile(args!!, "prio") ?: return
-        getFile(args, "cap")
+        val priorities = getFile(args!!, "prio") ?: return
+        val capacities = getFile(args, "cap") ?: return
+       applicationService.solveProblem(priorities, capacities)
     }
 
     private fun getFile(args: ApplicationArguments, optionName: String) : File? {

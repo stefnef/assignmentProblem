@@ -1,14 +1,18 @@
 package de.hoersendung.steffen.assignmentProblem
 
+import de.hoersendung.steffen.assignmentProblem.service.AssignmentProblemApplicationService
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.*
+import org.mockito.kotlin.*
 import org.slf4j.Logger
 import org.springframework.boot.DefaultApplicationArguments
+import java.io.File
 
 internal class AssignmentProblemApplicationTest {
 
-    private val logger : Logger = mock(Logger::class.java)
-    private val assignmentProblemApplication = AssignmentProblemApplication(logger)
+    private val logger : Logger = mock()
+    private val applicationService : AssignmentProblemApplicationService = mock()
+    private val assignmentProblemApplication = AssignmentProblemApplication(logger, applicationService)
 
     private val basePath = "src/test/files"
 
@@ -19,6 +23,11 @@ internal class AssignmentProblemApplicationTest {
         assignmentProblemApplication.run(args)
 
         verify(logger, never()).error(any())
+        argumentCaptor<File>().apply {
+            verify(applicationService).solveProblem(capture(), capture())
+            assertThat(firstValue.name).isEqualTo("priorities.csv")
+            assertThat(secondValue.name).isEqualTo("capacities.csv")
+        }
     }
 
     @Test
@@ -71,5 +80,6 @@ internal class AssignmentProblemApplicationTest {
         verify(logger).error("wrong or missing arguments")
         verify(logger).error("usage: --prio=\"<path to file of priorities>\" --cap=\"<path to file of capacities>\"")
         verify(logger).error("note that both files have to be in csv format")
+        verify(applicationService, never()).solveProblem(any(), any())
     }
 }
