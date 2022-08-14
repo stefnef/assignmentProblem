@@ -1,4 +1,4 @@
-package de.hoersendung.steffen.assignmentProblem.service
+package de.hoersendung.steffen.assignmentProblem.service.priority
 
 import org.springframework.stereotype.Service
 import java.io.File

@@ -1,4 +1,4 @@
-package de.hoersendung.steffen.assignmentProblem.service
+package de.hoersendung.steffen.assignmentProblem.service.subject
 
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.Capacity

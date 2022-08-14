@@ -1,4 +1,4 @@
-package de.hoersendung.steffen.assignmentProblem.service
+package de.hoersendung.steffen.assignmentProblem.service.subject
 
 import java.io.File
 

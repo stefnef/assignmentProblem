@@ -1,5 +1,7 @@
 package de.hoersendung.steffen.assignmentProblem.service
 
+import de.hoersendung.steffen.assignmentProblem.service.priority.PriorityApplicationService
+import de.hoersendung.steffen.assignmentProblem.service.subject.SubjectApplicationService
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify

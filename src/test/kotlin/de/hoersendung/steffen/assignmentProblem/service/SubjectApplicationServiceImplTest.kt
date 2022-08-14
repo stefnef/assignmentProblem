@@ -5,6 +5,8 @@ import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.Capacity
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import de.hoersendung.steffen.assignmentProblem.repository.SubjectRepository
+import de.hoersendung.steffen.assignmentProblem.service.subject.SubjectApplicationServiceImpl
+import de.hoersendung.steffen.assignmentProblem.service.subject.SubjectFileWriter
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.given
