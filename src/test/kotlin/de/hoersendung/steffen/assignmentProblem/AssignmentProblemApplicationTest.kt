@@ -15,11 +15,12 @@ internal class AssignmentProblemApplicationTest {
     private val assignmentProblemApplication = AssignmentProblemApplication(logger, applicationService)
 
     private val basePath = "src/test/files"
+    private val prioritiesPath = "$basePath/priority"
     private val capacityPath = "$basePath/capacity"
 
     @Test
     fun `it should accept a priority and capacity arguments`() {
-        val args = DefaultApplicationArguments("--prio=${basePath}/priorities.csv", "--cap=${capacityPath}/capacities.csv")
+        val args = DefaultApplicationArguments("--prio=${prioritiesPath}/priorities.csv", "--cap=${capacityPath}/capacities.csv")
 
         assignmentProblemApplication.run(args)
 
@@ -70,7 +71,7 @@ internal class AssignmentProblemApplicationTest {
 
     @Test
     internal fun `should log that capacities file does not exist`() {
-        val args = DefaultApplicationArguments("--prio=${basePath}/priorities.csv", "--cap=never-existed.csv")
+        val args = DefaultApplicationArguments("--prio=${prioritiesPath}/priorities.csv", "--cap=never-existed.csv")
 
         assignmentProblemApplication.run(args)
 
@@ -79,7 +80,7 @@ internal class AssignmentProblemApplicationTest {
 
     @Test
     internal fun `it should propagate Exceptions`() {
-        val args = DefaultApplicationArguments("--prio=${basePath}/priorities.csv", "--cap=${capacityPath}/capacities.csv")
+        val args = DefaultApplicationArguments("--prio=${prioritiesPath}/priorities.csv", "--cap=${capacityPath}/capacities.csv")
         given(applicationService.solveProblem(any(), any())).willThrow(IllegalArgumentException("Fake"))
 
         assignmentProblemApplication.run(args)
