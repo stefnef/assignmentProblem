@@ -5,10 +5,12 @@ import org.slf4j.Logger
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
 import java.io.File
 
 @SpringBootApplication
+@ConfigurationPropertiesScan
 class AssignmentProblemApplication(
     private val logger : Logger,
     private val applicationService: AssignmentProblemApplicationService) : ApplicationRunner {

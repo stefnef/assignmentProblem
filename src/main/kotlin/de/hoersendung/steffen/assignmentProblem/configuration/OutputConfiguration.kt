@@ -1,9 +1,6 @@
 package de.hoersendung.steffen.assignmentProblem.configuration
 
-import org.springframework.context.annotation.Configuration
+import org.springframework.boot.context.properties.ConfigurationProperties
 
-@Configuration
-class OutputConfiguration(val directory: String = "") {
-    //TODO set configuration
-
-}
+@ConfigurationProperties(prefix = "application.output")
+data class OutputConfiguration( var directory: String = "")
