@@ -33,6 +33,10 @@ class SubjectApplicationServiceImpl(
         subjectFileWriter.write(repository.getAll())
     }
 
+    override fun getCapacityForSubject(subjectName: SubjectName): Capacity {
+        TODO("Not yet implemented")
+    }
+
     private fun BufferedReader.parseLine(errorMessage: String): List<String> {
         val line = this.readLine() ?: throw IllegalArgumentException(errorMessage)
         return line.split(",")
