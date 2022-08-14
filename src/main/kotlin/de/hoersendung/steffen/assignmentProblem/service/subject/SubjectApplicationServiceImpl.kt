@@ -34,7 +34,11 @@ class SubjectApplicationServiceImpl(
     }
 
     override fun getCapacityForSubject(subjectName: SubjectName): Capacity {
-        TODO("Not yet implemented")
+        return try {
+            repository.getAll().first { it.name == subjectName }.capacity
+        } catch (e: NoSuchElementException){
+            throw IllegalArgumentException("Could not find any subject with name '${subjectName.value}'")
+        }
     }
 
     private fun BufferedReader.parseLine(errorMessage: String): List<String> {

@@ -7,7 +7,8 @@ import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import de.hoersendung.steffen.assignmentProblem.repository.SubjectRepository
 import de.hoersendung.steffen.assignmentProblem.service.subject.SubjectApplicationServiceImpl
 import de.hoersendung.steffen.assignmentProblem.service.subject.SubjectFileWriter
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.given
 import org.mockito.kotlin.mock
@@ -18,6 +19,21 @@ internal class SubjectApplicationServiceImplTest {
     private val repository: SubjectRepository = mock()
     private val subjectFileWriter : SubjectFileWriter = mock()
     private val subjectService = SubjectApplicationServiceImpl(repository, subjectFileWriter)
+
+    @Test
+    internal fun `it should find the correct capacity for given subjectName`() {
+        given(repository.getAll()).willReturn(threeSubjects())
+
+        val capacity = subjectService.getCapacityForSubject(SubjectName("sub_2"))
+        assertThat(capacity.value).isEqualTo(2)
+    }
+
+    @Test
+    internal fun `it should throw Exception if capacity was not found for SubjectName`() {
+        assertThatThrownBy { subjectService.getCapacityForSubject(SubjectName("sub_2")) }
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage("Could not find any subject with name 'sub_2'")
+    }
 
     @Test
     internal fun `should add five subjects to repository`() {
@@ -34,7 +50,7 @@ internal class SubjectApplicationServiceImplTest {
 
     @Test
     internal fun `should throw exception if file is empty`() {
-        Assertions.assertThatThrownBy {
+        assertThatThrownBy {
             subjectService.loadCapacities(testingEmptyFile())
         }.isInstanceOf(IllegalArgumentException::class.java)
          .hasMessage("file of capacities is empty")
@@ -42,7 +58,7 @@ internal class SubjectApplicationServiceImplTest {
 
     @Test
     internal fun `should throw exception if capacity line is missing`() {
-        Assertions.assertThatThrownBy {
+        assertThatThrownBy {
             subjectService.loadCapacities(testingCapacitiesMissing2ndLineFile())
         }.isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("file of capacities contains no or wrong formatted capacity values")
@@ -50,7 +66,7 @@ internal class SubjectApplicationServiceImplTest {
 
     @Test
     internal fun `should throw Exception if number of subjects and capacities do not match`() {
-        Assertions.assertThatThrownBy {
+        assertThatThrownBy {
             subjectService.loadCapacities(testingCapacitiesWrongNumberFile())
         }.isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("file of capacities differs in number of subjects (3) and number of capacities (2)")
