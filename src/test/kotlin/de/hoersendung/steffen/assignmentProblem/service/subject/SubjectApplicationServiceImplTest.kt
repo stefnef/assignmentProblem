@@ -1,12 +1,10 @@
-package de.hoersendung.steffen.assignmentProblem.service
+package de.hoersendung.steffen.assignmentProblem.service.subject
 
 import de.hoersendung.steffen.assignmentProblem.defaults.*
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.Capacity
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import de.hoersendung.steffen.assignmentProblem.repository.SubjectRepository
-import de.hoersendung.steffen.assignmentProblem.service.subject.SubjectApplicationServiceImpl
-import de.hoersendung.steffen.assignmentProblem.service.subject.SubjectFileWriter
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test

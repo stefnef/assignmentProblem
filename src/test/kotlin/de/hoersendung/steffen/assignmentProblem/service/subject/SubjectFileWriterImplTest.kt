@@ -1,8 +1,7 @@
-package de.hoersendung.steffen.assignmentProblem.service
+package de.hoersendung.steffen.assignmentProblem.service.subject
 
 import de.hoersendung.steffen.assignmentProblem.configuration.OutputConfiguration
 import de.hoersendung.steffen.assignmentProblem.defaults.threeSubjects
-import de.hoersendung.steffen.assignmentProblem.service.subject.SubjectFileWriterImpl
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test

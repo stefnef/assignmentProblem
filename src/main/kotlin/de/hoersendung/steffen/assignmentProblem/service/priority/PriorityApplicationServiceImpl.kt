@@ -14,20 +14,24 @@ import java.io.File
 
 @Service
 class PriorityApplicationServiceImpl(
-    private val subjectService : SubjectApplicationService,
+    private val subjectService: SubjectApplicationService,
     private val repository: PriorityRepository
 ) : PriorityApplicationService {
 
     override fun loadPriorities(priorities: File) {
         priorities.bufferedReader().apply {
-            val header = readLine() //TODO handle null
+            val header = readLine() ?: throw IllegalArgumentException("file of priorities is empty")
             val subjects = header.split(",").drop(2)
 
-            val prioritiesOfPupil = readLine().split(",") //TODO handle null
-            val pupilName = PupilName("${prioritiesOfPupil[0]}_${prioritiesOfPupil[1]}")
+            this.forEachLine {
+                val prioritiesOfPupil = it.split(",") //TODO handle null
+                val pupilName = PupilName("${prioritiesOfPupil[0]}_${prioritiesOfPupil[1]}")
 
-            subjects.forEachIndexed { subjectIndex, subjectName ->
-                readPriorityForSubject(SubjectName(subjectName), subjectIndex, prioritiesOfPupil, pupilName) }
+                subjects.forEachIndexed { subjectIndex, subjectName ->
+                    readPriorityForSubject(SubjectName(subjectName), subjectIndex, prioritiesOfPupil, pupilName)
+                }
+            }
+
         }
     }
 
