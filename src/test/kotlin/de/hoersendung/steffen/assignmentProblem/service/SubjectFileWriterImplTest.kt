@@ -33,8 +33,6 @@ internal class SubjectFileWriterImplTest {
 
     @AfterEach
     fun afterEach() {
-        File(outputDirectory).listFiles()
-            ?.filterNot { it.isDirectory }
-            ?.forEach { it.delete() }
+        File(outputDirectory).deleteRecursively()
     }
 }
