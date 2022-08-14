@@ -19,6 +19,13 @@ internal class SubjectApplicationServiceImplTest {
     private val subjectService = SubjectApplicationServiceImpl(repository, subjectFileWriter)
 
     @Test
+    internal fun `should return number of subjects`() {
+        given(repository.getAll()).willReturn(threeSubjects())
+
+        assertThat(subjectService.getNumberOfSubjects()).isEqualTo(3)
+    }
+
+    @Test
     internal fun `it should find the correct capacity for given subjectName`() {
         given(repository.getAll()).willReturn(threeSubjects())
 

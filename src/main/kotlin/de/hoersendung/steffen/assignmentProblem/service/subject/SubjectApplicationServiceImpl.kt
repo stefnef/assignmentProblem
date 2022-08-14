@@ -42,7 +42,7 @@ class SubjectApplicationServiceImpl(
     }
 
     override fun getNumberOfSubjects(): Int {
-        TODO("Not yet implemented")
+        return repository.getAll().size
     }
 
     private fun BufferedReader.parseLine(errorMessage: String): List<String> {
