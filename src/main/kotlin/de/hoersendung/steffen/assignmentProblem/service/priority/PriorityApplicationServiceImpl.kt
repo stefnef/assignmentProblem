@@ -26,20 +26,36 @@ class PriorityApplicationServiceImpl(
             val prioritiesOfPupil = readLine().split(",") //TODO handle null
             val pupilName = PupilName("${prioritiesOfPupil[0]}_${prioritiesOfPupil[1]}")
 
-            val subjectName = SubjectName(subjects[0])
-            val capacity = subjectService.getCapacityForSubject(subjectName)
+            var subjectIndex = 0
+            readPriorityForSubject(subjects, subjectIndex, prioritiesOfPupil, pupilName)
 
-            val priorityValue = PriorityValue(prioritiesOfPupil[2].toInt())
+            subjectIndex++
+            readPriorityForSubject(subjects, subjectIndex, prioritiesOfPupil, pupilName)
 
-            repository.add(
-                Priority(
-                    Assignment(
-                        pupil = Pupil(pupilName),
-                        Subject(subjectName, capacity)
-                    ),
-                    priorityValue
-                )
-            )
+            subjectIndex++
+            readPriorityForSubject(subjects, subjectIndex, prioritiesOfPupil, pupilName)
         }
+    }
+
+    private fun readPriorityForSubject(
+        subjects: List<String>,
+        subjectIndex: Int,
+        prioritiesOfPupil: List<String>,
+        pupilName: PupilName
+    ) {
+        val subjectName = SubjectName(subjects[subjectIndex])
+        val capacity = subjectService.getCapacityForSubject(subjectName)
+
+        val priorityValue = PriorityValue(prioritiesOfPupil[subjectIndex + 2].toInt())
+
+        repository.add(
+            Priority(
+                Assignment(
+                    pupil = Pupil(pupilName),
+                    Subject(subjectName, capacity)
+                ),
+                priorityValue
+            )
+        )
     }
 }
