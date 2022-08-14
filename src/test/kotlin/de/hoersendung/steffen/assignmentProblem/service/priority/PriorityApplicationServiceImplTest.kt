@@ -1,8 +1,6 @@
 package de.hoersendung.steffen.assignmentProblem.service.priority
 
-import de.hoersendung.steffen.assignmentProblem.defaults.testingEmptyFile
-import de.hoersendung.steffen.assignmentProblem.defaults.testingPrioritiesOneFile
-import de.hoersendung.steffen.assignmentProblem.defaults.testingPrioritiesTwoFile
+import de.hoersendung.steffen.assignmentProblem.defaults.*
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Assignment
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Priority
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Pupil
@@ -111,5 +109,13 @@ internal class PriorityApplicationServiceImplTest {
             priorityService.loadPriorities(testingEmptyFile())
         }.isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("file of priorities is empty")
+    }
+
+    @Test
+    internal fun `should throw exception if priority lines are missing`() {
+        Assertions.assertThatThrownBy {
+            priorityService.loadPriorities(testingPrioritiesMissing2ndLineFile())
+        }.isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage("file of priorities contains no or wrong formatted priority values")
     }
 }

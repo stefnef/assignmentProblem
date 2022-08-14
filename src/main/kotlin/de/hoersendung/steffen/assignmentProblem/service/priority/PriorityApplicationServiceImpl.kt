@@ -22,14 +22,20 @@ class PriorityApplicationServiceImpl(
         priorities.bufferedReader().apply {
             val header = readLine() ?: throw IllegalArgumentException("file of priorities is empty")
             val subjects = header.split(",").drop(2)
+            var readPriorities = false
 
             this.forEachLine {
+                readPriorities = true
                 val prioritiesOfPupil = it.split(",") //TODO handle null
                 val pupilName = PupilName("${prioritiesOfPupil[0]}_${prioritiesOfPupil[1]}")
 
                 subjects.forEachIndexed { subjectIndex, subjectName ->
                     readPriorityForSubject(SubjectName(subjectName), subjectIndex, prioritiesOfPupil, pupilName)
                 }
+            }
+
+            if (!readPriorities) {
+                throw IllegalArgumentException("file of priorities contains no or wrong formatted priority values")
             }
 
         }

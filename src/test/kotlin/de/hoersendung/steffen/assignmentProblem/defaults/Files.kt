@@ -17,3 +17,5 @@ fun testingCapacitiesWrongNumberFile() = File("$CAPACITY_PATH/capacitiesWrongNum
 fun testingPrioritiesOneFile() = File("$PRIORITY_PATH/OnePriority.csv")
 
 fun testingPrioritiesTwoFile() = File("$PRIORITY_PATH/TwoPriorities.csv")
+
+fun testingPrioritiesMissing2ndLineFile() = File("$PRIORITY_PATH/prioritiesMissing2ndLine.csv")
