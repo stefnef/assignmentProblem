@@ -4,13 +4,15 @@ import de.hoersendung.steffen.assignmentProblem.domain.entity.Priority
 import org.springframework.stereotype.Service
 
 @Service
-class PriorityRepositoryImpl : PriorityRepository {
+class PriorityRepositoryImpl(
+    private val priorities : MutableList<Priority> = mutableListOf()
+) : PriorityRepository {
 
     override fun add(priority: Priority) {
-        TODO("Not yet implemented")
+        priorities.add(priority)
     }
 
     override fun getAll(): List<Priority> {
-        TODO("Not yet implemented")
+        return priorities.toList()
     }
 }
