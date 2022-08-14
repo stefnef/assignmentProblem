@@ -19,3 +19,5 @@ fun testingPrioritiesOneFile() = File("$PRIORITY_PATH/OnePriority.csv")
 fun testingPrioritiesTwoFile() = File("$PRIORITY_PATH/TwoPriorities.csv")
 
 fun testingPrioritiesMissing2ndLineFile() = File("$PRIORITY_PATH/prioritiesMissing2ndLine.csv")
+
+fun testingPrioritiesWrongNumberFile() = File("$PRIORITY_PATH/prioritiesWrongNumberOfSubjectsIn2ndLine.csv")

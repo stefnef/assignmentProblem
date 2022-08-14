@@ -135,6 +135,19 @@ internal class PriorityApplicationServiceImplTest {
     }
 
     @Test
+    internal fun `should throw exception if priority line does not match with number of subjects`() {
+        given(subjectService.getNumberOfSubjects()).willReturn(2)
+        given(subjectService.getCapacityForSubject(SubjectName("Sportkurs_1"))).willReturn(Capacity(1))
+        given(subjectService.getCapacityForSubject(SubjectName("Sportkurs_2"))).willReturn(Capacity(2))
+
+        Assertions.assertThatThrownBy {
+            priorityService.loadPriorities(testingPrioritiesWrongNumberFile())
+        }.isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage("could not parse file of priorities: " +
+                    "Number of subjects in 3. line is not as expected (2). Check priority file")
+    }
+
+    @Test
     internal fun `should throw exception if header line contains wrong number of subjects`() {
         given(subjectService.getNumberOfSubjects()).willReturn(40)
 

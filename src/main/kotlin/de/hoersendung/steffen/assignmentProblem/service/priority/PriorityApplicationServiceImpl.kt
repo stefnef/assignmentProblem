@@ -22,17 +22,26 @@ class PriorityApplicationServiceImpl(
         priorities.bufferedReader().apply {
             val header = readLine() ?: throw IllegalArgumentException("file of priorities is empty")
             val subjects = header.split(",").drop(2)
+            val numberOfExpectedSubjects = subjectService.getNumberOfSubjects()
 
-            if( subjects.size != subjectService.getNumberOfSubjects()) {
+            if( subjects.size != numberOfExpectedSubjects) {
                 throw java.lang.IllegalArgumentException(
                     "could not parse file of priorities: Number of given subjects in header line is not as " +
-                            "expected (${subjectService.getNumberOfSubjects()}). Check priority and capacity files")
+                            "expected ($numberOfExpectedSubjects). Check priority and capacity files")
             }
+
             var readPriorities = false
+            var readLines = 1
 
             this.forEachLine {
                 readPriorities = true
-                val prioritiesOfPupil = it.split(",") //TODO handle null
+                readLines++
+                val prioritiesOfPupil = it.split(",")
+
+                if (prioritiesOfPupil.size != ( numberOfExpectedSubjects + 2)) {
+                    throw IllegalArgumentException("could not parse file of priorities: " +
+                            "Number of subjects in $readLines. line is not as expected ($numberOfExpectedSubjects). Check priority file")
+                }
                 val pupilName = PupilName("${prioritiesOfPupil[0]}_${prioritiesOfPupil[1]}")
 
                 subjects.forEachIndexed { subjectIndex, subjectName ->
