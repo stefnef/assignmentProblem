@@ -26,6 +26,7 @@ internal class PriorityApplicationServiceImplTest {
 
     @Test
     internal fun `should add one Priority to repository`() {
+        given(subjectService.getNumberOfSubjects()).willReturn(3)
         given(subjectService.getCapacityForSubject(SubjectName("Sportkurs_1"))).willReturn(Capacity(1))
         given(subjectService.getCapacityForSubject(SubjectName("Sportkurs_2"))).willReturn(Capacity(2))
         given(subjectService.getCapacityForSubject(SubjectName("Sportkurs_3"))).willReturn(Capacity(3))
@@ -62,6 +63,7 @@ internal class PriorityApplicationServiceImplTest {
 
     @Test
     internal fun `should load priorities for more than one pupil`() {
+        given(subjectService.getNumberOfSubjects()).willReturn(2)
         given(subjectService.getCapacityForSubject(SubjectName("Sportkurs_1"))).willReturn(Capacity(1))
         given(subjectService.getCapacityForSubject(SubjectName("Sportkurs_2"))).willReturn(Capacity(2))
 
@@ -114,6 +116,7 @@ internal class PriorityApplicationServiceImplTest {
 
     @Test
     internal fun `should throw exception if priority lines are missing`() {
+        given(subjectService.getNumberOfSubjects()).willReturn(3)
         Assertions.assertThatThrownBy {
             priorityService.loadPriorities(testingPrioritiesMissing2ndLineFile())
         }.isInstanceOf(IllegalArgumentException::class.java)
@@ -122,11 +125,23 @@ internal class PriorityApplicationServiceImplTest {
 
     @Test
     internal fun `should propagate exception if subject is unknown`() {
+        given(subjectService.getNumberOfSubjects()).willReturn(3)
         given(subjectService.getCapacityForSubject(any())).willThrow(IllegalArgumentException("Fake"))
 
         Assertions.assertThatThrownBy {
             priorityService.loadPriorities(testingPrioritiesOneFile())
         }.isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessage("could not parse priority file - reason: Fake")
+            .hasMessage("could not parse file of priorities: Fake")
+    }
+
+    @Test
+    internal fun `should throw exception if header line contains wrong number of subjects`() {
+        given(subjectService.getNumberOfSubjects()).willReturn(40)
+
+        Assertions.assertThatThrownBy {
+            priorityService.loadPriorities(testingPrioritiesOneFile())
+        }.isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage("could not parse file of priorities: " +
+                    "Number of given subjects in header line is not as expected (40). Check priority and capacity files")
     }
 }

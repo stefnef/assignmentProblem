@@ -7,5 +7,6 @@ import java.io.File
 interface SubjectApplicationService {
     fun loadCapacities(capacities: File)
     fun getCapacityForSubject(subjectName: SubjectName): Capacity //TODO can be null
+    fun getNumberOfSubjects(): Int
 
 }

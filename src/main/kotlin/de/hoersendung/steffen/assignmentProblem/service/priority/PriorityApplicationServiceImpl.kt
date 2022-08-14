@@ -22,6 +22,12 @@ class PriorityApplicationServiceImpl(
         priorities.bufferedReader().apply {
             val header = readLine() ?: throw IllegalArgumentException("file of priorities is empty")
             val subjects = header.split(",").drop(2)
+
+            if( subjects.size != subjectService.getNumberOfSubjects()) {
+                throw java.lang.IllegalArgumentException(
+                    "could not parse file of priorities: Number of given subjects in header line is not as " +
+                            "expected (${subjectService.getNumberOfSubjects()}). Check priority and capacity files")
+            }
             var readPriorities = false
 
             this.forEachLine {
@@ -33,7 +39,7 @@ class PriorityApplicationServiceImpl(
                     try {
                         readPriorityForSubject(SubjectName(subjectName), subjectIndex, prioritiesOfPupil, pupilName)
                     } catch (e: Exception) {
-                        throw IllegalArgumentException("could not parse priority file - reason: ${e.message}")
+                        throw IllegalArgumentException("could not parse file of priorities: ${e.message}")
                     }
                 }
             }
