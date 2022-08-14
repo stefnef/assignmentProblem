@@ -4,13 +4,14 @@ import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 import org.springframework.stereotype.Service
 
 @Service
-class SubjectRepositoryImpl : SubjectRepository {
+class SubjectRepositoryImpl(
+    private val subjects : MutableList<Subject> = mutableListOf() ) : SubjectRepository {
 
     override fun add(subject: Subject) {
-        TODO("Not yet implemented")
+        subjects.add(subject)
     }
 
     override fun getAll(): List<Subject> {
-        TODO("Not yet implemented")
+        return subjects.toList()
     }
 }
