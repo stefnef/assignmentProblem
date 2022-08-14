@@ -30,7 +30,11 @@ class PriorityApplicationServiceImpl(
                 val pupilName = PupilName("${prioritiesOfPupil[0]}_${prioritiesOfPupil[1]}")
 
                 subjects.forEachIndexed { subjectIndex, subjectName ->
-                    readPriorityForSubject(SubjectName(subjectName), subjectIndex, prioritiesOfPupil, pupilName)
+                    try {
+                        readPriorityForSubject(SubjectName(subjectName), subjectIndex, prioritiesOfPupil, pupilName)
+                    } catch (e: Exception) {
+                        throw IllegalArgumentException("could not parse priority file - reason: ${e.message}")
+                    }
                 }
             }
 

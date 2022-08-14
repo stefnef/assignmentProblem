@@ -13,6 +13,7 @@ import de.hoersendung.steffen.assignmentProblem.repository.PriorityRepository
 import de.hoersendung.steffen.assignmentProblem.service.subject.SubjectApplicationService
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
@@ -117,5 +118,15 @@ internal class PriorityApplicationServiceImplTest {
             priorityService.loadPriorities(testingPrioritiesMissing2ndLineFile())
         }.isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("file of priorities contains no or wrong formatted priority values")
+    }
+
+    @Test
+    internal fun `should propagate exception if subject is unknown`() {
+        given(subjectService.getCapacityForSubject(any())).willThrow(IllegalArgumentException("Fake"))
+
+        Assertions.assertThatThrownBy {
+            priorityService.loadPriorities(testingPrioritiesOneFile())
+        }.isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage("could not parse priority file - reason: Fake")
     }
 }
