@@ -11,6 +11,7 @@ import de.hoersendung.steffen.assignmentProblem.repository.PriorityRepository
 import de.hoersendung.steffen.assignmentProblem.service.FileWriter
 import de.hoersendung.steffen.assignmentProblem.service.subject.SubjectApplicationService
 import org.springframework.stereotype.Service
+import java.io.BufferedReader
 import java.io.File
 
 @Service
@@ -22,48 +23,67 @@ class PriorityApplicationServiceImpl(
 
     override fun loadPriorities(priorities: File) {
         priorities.bufferedReader().apply {
-            val header = readLine() ?: throw IllegalArgumentException("file of priorities is empty")
-            val subjects = header.split(",").drop(2)
-            val numberOfExpectedSubjects = subjectService.getNumberOfSubjects()
+            val subjects = parseSubjects()
 
-            if( subjects.size != numberOfExpectedSubjects) {
-                throw java.lang.IllegalArgumentException(
-                    "could not parse file of priorities: Number of given subjects in header line is not as " +
-                            "expected ($numberOfExpectedSubjects). Check priority and capacity files")
-            }
+            parsePriorities(subjects)
 
-            var readPriorities = false
-            var readLines = 1
-
-            this.forEachLine {
-                readPriorities = true
-                readLines++
-                val prioritiesOfPupil = it.split(",")
-
-                if (prioritiesOfPupil.size != ( numberOfExpectedSubjects + 2)) {
-                    throw IllegalArgumentException("could not parse file of priorities: " +
-                            "Number of subjects in $readLines. line is not as expected ($numberOfExpectedSubjects). Check priority file")
-                }
-                val pupilName = PupilName("${prioritiesOfPupil[0]}_${prioritiesOfPupil[1]}")
-
-                subjects.forEachIndexed { subjectIndex, subjectName ->
-                    try {
-                        readPriorityForSubject(SubjectName(subjectName), subjectIndex, prioritiesOfPupil, pupilName)
-                    } catch (e: Exception) {
-                        throw IllegalArgumentException("could not parse file of priorities: ${e.message}")
-                    }
-                }
-            }
-
-            if (!readPriorities) {
+            val savedPriorities = repository.getAll()
+            if (savedPriorities.isEmpty()) {
                 throw IllegalArgumentException("file of priorities contains no or wrong formatted priority values")
             }
 
-            val savedPriorities = repository.getAll()
             fileWriter.writePupilsData(savedPriorities)
             fileWriter.writePriorityData(savedPriorities)
 
         }
+    }
+
+    private fun BufferedReader.parsePriorities(subjects: List<String>) {
+        var readLines = 1
+        this.forEachLine {
+            readLines = parsePriorityLine(readLines, it, subjects)
+        }
+    }
+
+    private fun BufferedReader.parseSubjects(): List<String> {
+        val numberOfExpectedSubjects = subjectService.getNumberOfSubjects()
+        val header = readLine() ?: throw IllegalArgumentException("file of priorities is empty")
+        val subjects = header.split(",").drop(2)
+
+        if (subjects.size != numberOfExpectedSubjects) {
+            throw java.lang.IllegalArgumentException(
+                "could not parse file of priorities: Number of given subjects in header line is not as " +
+                        "expected ($numberOfExpectedSubjects). Check priority and capacity files"
+            )
+        }
+        return subjects
+    }
+
+    private fun parsePriorityLine(
+        readLines: Int,
+        line: String,
+        subjects: List<String>
+    ): Int {
+        val prioritiesOfPupil = line.split(",")
+        val lineIndex = readLines + 1
+        val numberOfExpectedSubjects = subjects.size
+
+        if (prioritiesOfPupil.size != (numberOfExpectedSubjects + 2)) {
+            throw IllegalArgumentException(
+                "could not parse file of priorities: " +
+                        "Number of subjects in $lineIndex. line is not as expected ($numberOfExpectedSubjects). Check priority file"
+            )
+        }
+        val pupilName = PupilName("${prioritiesOfPupil[0]}_${prioritiesOfPupil[1]}")
+
+        subjects.forEachIndexed { subjectIndex, subjectName ->
+            try {
+                readPriorityForSubject(SubjectName(subjectName), subjectIndex, prioritiesOfPupil, pupilName)
+            } catch (e: Exception) {
+                throw IllegalArgumentException("could not parse file of priorities: ${e.message}")
+            }
+        }
+        return lineIndex
     }
 
     private fun readPriorityForSubject(

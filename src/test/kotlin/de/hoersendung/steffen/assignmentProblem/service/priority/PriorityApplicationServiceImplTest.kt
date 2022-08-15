@@ -73,6 +73,7 @@ internal class PriorityApplicationServiceImplTest {
         given(subjectService.getNumberOfSubjects()).willReturn(2)
         given(subjectService.getCapacityForSubject(SubjectName("Sportkurs_1"))).willReturn(Capacity(1))
         given(subjectService.getCapacityForSubject(SubjectName("Sportkurs_2"))).willReturn(Capacity(2))
+        given(repository.getAll()).willReturn(threePriorities())
 
         priorityService.loadPriorities(testingPrioritiesTwoFile())
 
