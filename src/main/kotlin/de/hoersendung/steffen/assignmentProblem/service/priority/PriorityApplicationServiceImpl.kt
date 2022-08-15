@@ -8,6 +8,7 @@ import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PriorityValue
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PupilName
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import de.hoersendung.steffen.assignmentProblem.repository.PriorityRepository
+import de.hoersendung.steffen.assignmentProblem.service.FileWriter
 import de.hoersendung.steffen.assignmentProblem.service.subject.SubjectApplicationService
 import org.springframework.stereotype.Service
 import java.io.File
@@ -15,7 +16,8 @@ import java.io.File
 @Service
 class PriorityApplicationServiceImpl(
     private val subjectService: SubjectApplicationService,
-    private val repository: PriorityRepository
+    private val repository: PriorityRepository,
+    private val fileWriter: FileWriter
 ) : PriorityApplicationService {
 
     override fun loadPriorities(priorities: File) {
@@ -56,6 +58,10 @@ class PriorityApplicationServiceImpl(
             if (!readPriorities) {
                 throw IllegalArgumentException("file of priorities contains no or wrong formatted priority values")
             }
+
+            val savedPriorities = repository.getAll()
+            fileWriter.writePupilsData(savedPriorities)
+            fileWriter.writePriorityData(savedPriorities)
 
         }
     }

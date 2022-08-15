@@ -10,6 +10,7 @@ import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PriorityValue
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PupilName
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import de.hoersendung.steffen.assignmentProblem.repository.PriorityRepository
+import de.hoersendung.steffen.assignmentProblem.service.FileWriter
 import de.hoersendung.steffen.assignmentProblem.service.subject.SubjectApplicationService
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
@@ -22,7 +23,8 @@ internal class PriorityApplicationServiceImplTest {
 
     private val repository: PriorityRepository = mock()
     private val subjectService : SubjectApplicationService = mock()
-    private val priorityService = PriorityApplicationServiceImpl(subjectService, repository)
+    private val fileWriter: FileWriter = mock()
+    private val priorityService = PriorityApplicationServiceImpl(subjectService, repository, fileWriter)
 
     @Test
     internal fun `should add one Priority to repository`() {
@@ -30,6 +32,8 @@ internal class PriorityApplicationServiceImplTest {
         given(subjectService.getCapacityForSubject(SubjectName("Sportkurs_1"))).willReturn(Capacity(1))
         given(subjectService.getCapacityForSubject(SubjectName("Sportkurs_2"))).willReturn(Capacity(2))
         given(subjectService.getCapacityForSubject(SubjectName("Sportkurs_3"))).willReturn(Capacity(3))
+        val mockedListOfPriorities = threePriorities()
+        given(repository.getAll()).willReturn(mockedListOfPriorities)
 
         priorityService.loadPriorities(testingPrioritiesOneFile())
 
@@ -59,6 +63,9 @@ internal class PriorityApplicationServiceImplTest {
                 ),
                 PriorityValue(1)
             ))
+
+        verify(fileWriter).writePupilsData(mockedListOfPriorities)
+        verify(fileWriter).writePriorityData(mockedListOfPriorities)
     }
 
     @Test

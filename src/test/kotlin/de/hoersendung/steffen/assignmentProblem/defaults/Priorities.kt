@@ -20,3 +20,9 @@ fun simplePriority(pupilName: String = "Bob",
             Subject(SubjectName(subjectName), Capacity(capacity))),
         PriorityValue(priorityValue)
 )
+
+fun threePriorities() = listOf(
+    simplePriority(pupilName = "Anna"),
+    simplePriority(pupilName = "Bob"),
+    simplePriority(pupilName = "Carl")
+)

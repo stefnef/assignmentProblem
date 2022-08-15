@@ -1,6 +1,7 @@
 package de.hoersendung.steffen.assignmentProblem.service
 
 import de.hoersendung.steffen.assignmentProblem.configuration.OutputConfiguration
+import de.hoersendung.steffen.assignmentProblem.domain.entity.Priority
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 import org.springframework.stereotype.Service
 import java.io.File
@@ -21,6 +22,14 @@ class FileWriterImpl(
             }
             writer.flush()
         }
+    }
+
+    override fun writePupilsData(priorities: List<Priority>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun writePriorityData(priorities: List<Priority>) {
+        TODO("Not yet implemented")
     }
 
     private fun createOutputDirectoryIfNotExists() {
