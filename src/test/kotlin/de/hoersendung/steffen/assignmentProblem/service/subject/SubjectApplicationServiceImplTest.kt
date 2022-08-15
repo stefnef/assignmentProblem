@@ -84,6 +84,6 @@ internal class SubjectApplicationServiceImplTest {
 
         subjectService.loadCapacities(testingCapacitiesFile())
 
-        verify(fileWriter).write(threeSubjects())
+        verify(fileWriter).writeSubjectsData(threeSubjects())
     }
 }

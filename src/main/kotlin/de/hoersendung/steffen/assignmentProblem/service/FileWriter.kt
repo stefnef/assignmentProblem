@@ -4,7 +4,7 @@ import de.hoersendung.steffen.assignmentProblem.domain.entity.Priority
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 
 interface FileWriter {
-    fun write(subjects: List<Subject>) //TODO rename to writeSubjectsData
+    fun writeSubjectsData(subjects: List<Subject>)
     fun writePupilsData(priorities: List<Priority>)
     fun writePriorityData(priorities: List<Priority>)
 

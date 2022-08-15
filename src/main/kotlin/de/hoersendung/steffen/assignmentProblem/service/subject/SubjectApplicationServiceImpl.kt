@@ -31,7 +31,7 @@ class SubjectApplicationServiceImpl(
 
         }
 
-        fileWriter.write(repository.getAll())
+        fileWriter.writeSubjectsData(repository.getAll())
     }
 
     override fun getCapacityForSubject(subjectName: SubjectName): Capacity {

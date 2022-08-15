@@ -16,7 +16,7 @@ internal class FileWriterImplTest {
 
     @Test
     internal fun `it should write subjects to data file`() {
-        subjectFileWriter.write(threeSubjects())
+        subjectFileWriter.writeSubjectsData(threeSubjects())
 
         val file = File("${outputDirectory}/subjects.data")
         assertThat(file.exists()).isTrue

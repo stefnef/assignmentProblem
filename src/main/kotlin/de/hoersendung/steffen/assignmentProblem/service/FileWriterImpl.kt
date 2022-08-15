@@ -11,7 +11,7 @@ import java.io.FileOutputStream
 class FileWriterImpl(
     private val outputConfiguration: OutputConfiguration) : FileWriter {
 
-    override fun write(subjects: List<Subject>) {
+    override fun writeSubjectsData(subjects: List<Subject>) {
         createOutputDirectoryIfNotExists()
 
         FileOutputStream("${outputConfiguration.directory}/subjects.data").apply {
