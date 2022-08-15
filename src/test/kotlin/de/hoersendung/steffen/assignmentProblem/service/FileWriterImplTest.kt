@@ -1,4 +1,4 @@
-package de.hoersendung.steffen.assignmentProblem.service.subject
+package de.hoersendung.steffen.assignmentProblem.service
 
 import de.hoersendung.steffen.assignmentProblem.configuration.OutputConfiguration
 import de.hoersendung.steffen.assignmentProblem.defaults.threeSubjects
@@ -7,12 +7,12 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import java.io.File
 
-internal class SubjectFileWriterImplTest {
+internal class FileWriterImplTest {
 
     private val outputDirectory = "src/test/files/output/tmp"
     private val outputConfiguration = OutputConfiguration(directory = outputDirectory)
 
-    private val subjectFileWriter = SubjectFileWriterImpl(outputConfiguration)
+    private val subjectFileWriter = FileWriterImpl(outputConfiguration)
 
     @Test
     internal fun `it should write subjects to data file`() {

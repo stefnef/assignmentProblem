@@ -1,8 +1,8 @@
-package de.hoersendung.steffen.assignmentProblem.service.subject
+package de.hoersendung.steffen.assignmentProblem.service
 
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 
-interface SubjectFileWriter {
+interface FileWriter {
     fun write(subjects: List<Subject>)
 
 }

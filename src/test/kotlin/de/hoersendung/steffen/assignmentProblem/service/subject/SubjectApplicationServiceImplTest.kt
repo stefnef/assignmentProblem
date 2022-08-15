@@ -5,6 +5,7 @@ import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.Capacity
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import de.hoersendung.steffen.assignmentProblem.repository.SubjectRepository
+import de.hoersendung.steffen.assignmentProblem.service.FileWriter
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
@@ -15,8 +16,8 @@ import org.mockito.kotlin.verify
 internal class SubjectApplicationServiceImplTest {
 
     private val repository: SubjectRepository = mock()
-    private val subjectFileWriter : SubjectFileWriter = mock()
-    private val subjectService = SubjectApplicationServiceImpl(repository, subjectFileWriter)
+    private val fileWriter : FileWriter = mock()
+    private val subjectService = SubjectApplicationServiceImpl(repository, fileWriter)
 
     @Test
     internal fun `should return number of subjects`() {
@@ -83,6 +84,6 @@ internal class SubjectApplicationServiceImplTest {
 
         subjectService.loadCapacities(testingCapacitiesFile())
 
-        verify(subjectFileWriter).write(threeSubjects())
+        verify(fileWriter).write(threeSubjects())
     }
 }

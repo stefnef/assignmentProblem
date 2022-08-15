@@ -4,6 +4,7 @@ import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.Capacity
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import de.hoersendung.steffen.assignmentProblem.repository.SubjectRepository
+import de.hoersendung.steffen.assignmentProblem.service.FileWriter
 import org.springframework.stereotype.Service
 import java.io.BufferedReader
 import java.io.File
@@ -11,7 +12,7 @@ import java.io.File
 @Service
 class SubjectApplicationServiceImpl(
     private val repository : SubjectRepository,
-    private val subjectFileWriter : SubjectFileWriter
+    private val fileWriter : FileWriter
 ) : SubjectApplicationService {
 
     override fun loadCapacities(capacities: File) {
@@ -30,7 +31,7 @@ class SubjectApplicationServiceImpl(
 
         }
 
-        subjectFileWriter.write(repository.getAll())
+        fileWriter.write(repository.getAll())
     }
 
     override fun getCapacityForSubject(subjectName: SubjectName): Capacity {

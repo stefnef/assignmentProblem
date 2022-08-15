@@ -1,4 +1,4 @@
-package de.hoersendung.steffen.assignmentProblem.service.subject
+package de.hoersendung.steffen.assignmentProblem.service
 
 import de.hoersendung.steffen.assignmentProblem.configuration.OutputConfiguration
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
@@ -7,8 +7,8 @@ import java.io.File
 import java.io.FileOutputStream
 
 @Service
-class SubjectFileWriterImpl(
-    private val outputConfiguration: OutputConfiguration) : SubjectFileWriter {
+class FileWriterImpl(
+    private val outputConfiguration: OutputConfiguration) : FileWriter {
 
     override fun write(subjects: List<Subject>) {
         createOutputDirectoryIfNotExists()
