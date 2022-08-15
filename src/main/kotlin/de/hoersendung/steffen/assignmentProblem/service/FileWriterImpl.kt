@@ -38,7 +38,16 @@ class FileWriterImpl(
     }
 
     override fun writePriorityData(priorities: List<Priority>) {
-        TODO("Not yet implemented")
+        createOutputDirectoryIfNotExists()
+        FileOutputStream("${outputConfiguration.directory}/priorities.data").apply {
+            val writer = bufferedWriter()
+            writer.write("# PupilName_Quartal Subject Priority\n")
+            priorities.forEach {
+                writer.write("${it.assignment.pupil.name.value} ${it.assignment.subject.name.value} ")
+                writer.write("${it.priorityValue.value}\n")
+            }
+            writer.flush()
+        }
     }
 
     private fun createOutputDirectoryIfNotExists() {

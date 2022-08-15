@@ -21,6 +21,13 @@ fun simplePriority(pupilName: String = "Bob",
         PriorityValue(priorityValue)
 )
 
+fun prioritiesTwoPupilsTwoSubjects() = listOf(
+    simplePriority(pupilName = "Anna", quartal = "Q1", subjectName = "Sub_First", priorityValue = 1),
+    simplePriority(pupilName = "Anna", quartal = "Q1", subjectName = "Sub_Second", priorityValue = 2 ),
+    simplePriority(pupilName = "Bob",  quartal = "Q2", subjectName = "Sub_First", priorityValue = 10),
+    simplePriority(pupilName = "Bob",  quartal = "Q2", subjectName = "Sub_Second", priorityValue = 20 )
+)
+
 fun threePriorities() = listOf(
     simplePriority(pupilName = "Anna"),
     simplePriority(pupilName = "Bob"),

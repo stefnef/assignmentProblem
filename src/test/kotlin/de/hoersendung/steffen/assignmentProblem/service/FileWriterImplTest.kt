@@ -1,7 +1,7 @@
 package de.hoersendung.steffen.assignmentProblem.service
 
 import de.hoersendung.steffen.assignmentProblem.configuration.OutputConfiguration
-import de.hoersendung.steffen.assignmentProblem.defaults.threePriorities
+import de.hoersendung.steffen.assignmentProblem.defaults.prioritiesTwoPupilsTwoSubjects
 import de.hoersendung.steffen.assignmentProblem.defaults.threeSubjects
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
@@ -34,7 +34,7 @@ internal class FileWriterImplTest {
 
     @Test
     internal fun `should write pupils to data file`() {
-        fileWriter.writePupilsData(threePriorities())
+        fileWriter.writePupilsData(prioritiesTwoPupilsTwoSubjects())
 
         val file = File("${outputDirectory}/pupils.data")
         assertThat(file.exists()).isTrue
@@ -43,11 +43,28 @@ internal class FileWriterImplTest {
             val reader = bufferedReader()
             assertThat(reader.readLine()).isEqualTo("# PupilName_Quartal")
             assertThat(reader.readLine()).isEqualTo("Anna_Q1")
-            assertThat(reader.readLine()).isEqualTo("Bob_Q1")
-            assertThat(reader.readLine()).isEqualTo("Carl_Q1")
+            assertThat(reader.readLine()).isEqualTo("Bob_Q2")
             assertThat(reader.readLine()).isNull()
         }
 
+    }
+
+    @Test
+    internal fun `should write priorities to data file`() {
+        fileWriter.writePriorityData(prioritiesTwoPupilsTwoSubjects())
+
+        val file = File("${outputDirectory}/priorities.data")
+        assertThat(file.exists()).isTrue
+
+        file.inputStream().apply {
+            val reader = bufferedReader()
+            assertThat(reader.readLine()).isEqualTo("# PupilName_Quartal Subject Priority")
+            assertThat(reader.readLine()).isEqualTo("Anna_Q1 Sub_First 1")
+            assertThat(reader.readLine()).isEqualTo("Anna_Q1 Sub_Second 2")
+            assertThat(reader.readLine()).isEqualTo("Bob_Q2 Sub_First 10")
+            assertThat(reader.readLine()).isEqualTo("Bob_Q2 Sub_Second 20")
+            assertThat(reader.readLine()).isNull()
+        }
     }
 
     @AfterEach
