@@ -76,7 +76,7 @@ internal class FileWriterImplTest {
     }
 
     @Test
-    internal fun `should copy linear programm only if not existent`() {
+    internal fun `should copy linear programm if it already exists`() {
         val directory = File(outputConfiguration.directory)
         if (!directory.exists()) {
             directory.mkdirs()
@@ -89,7 +89,8 @@ internal class FileWriterImplTest {
         fileWriter.copyLinearProgramm()
 
         val fileInPath = File("${outputDirectory}/assignmentProblem.zpl")
-        assertThat(fileInPath.readBytes()).isEqualTo(oneByte)
+        val linearProgramm = ClassLoader.getSystemResourceAsStream("assignmentProblem.zpl")!!
+        assertThat(fileInPath.readBytes()).isEqualTo(linearProgramm.readAllBytes())
     }
 
     @AfterEach

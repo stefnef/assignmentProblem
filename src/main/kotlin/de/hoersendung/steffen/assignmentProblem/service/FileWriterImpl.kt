@@ -3,6 +3,7 @@ package de.hoersendung.steffen.assignmentProblem.service
 import de.hoersendung.steffen.assignmentProblem.configuration.OutputConfiguration
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Priority
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
+import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
 import java.io.File
 import java.io.FileOutputStream
@@ -51,11 +52,15 @@ class FileWriterImpl(
     }
 
     override fun copyLinearProgramm() {
-        val linearProgrammFile = File(ClassLoader.getSystemResource("assignmentProblem.zpl").file)
-        val targetFile = File("${outputConfiguration.directory}/assignmentProblem.zpl")
+        createOutputDirectoryIfNotExists()
 
-        if (!targetFile.exists()){
-            linearProgrammFile.copyTo(targetFile)
+        val resource = ClassPathResource("assignmentProblem.zpl")
+        val linearProgramm = File("${outputConfiguration.directory}/assignmentProblem.zpl")
+
+        resource.inputStream.use { input ->
+           linearProgramm.outputStream().use { output ->
+               input.copyTo(output)
+           }
         }
     }
 
