@@ -52,7 +52,11 @@ class FileWriterImpl(
 
     override fun copyLinearProgramm() {
         val linearProgrammFile = File(ClassLoader.getSystemResource("assignmentProblem.zpl").file)
-        linearProgrammFile.copyTo(File("${outputConfiguration.directory}/assignmentProblem.zpl"))
+        val targetFile = File("${outputConfiguration.directory}/assignmentProblem.zpl")
+
+        if (!targetFile.exists()){
+            linearProgrammFile.copyTo(targetFile)
+        }
     }
 
     private fun createOutputDirectoryIfNotExists() {

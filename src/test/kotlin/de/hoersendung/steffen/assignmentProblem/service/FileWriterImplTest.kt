@@ -75,6 +75,23 @@ internal class FileWriterImplTest {
         assertThat(file.exists()).isTrue
     }
 
+    @Test
+    internal fun `should copy linear programm only if not existent`() {
+        val directory = File(outputConfiguration.directory)
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+
+        val oneByte = byteArrayOf(1)
+        val file = File("${outputDirectory}/assignmentProblem.zpl")
+        file.writeBytes(oneByte)
+
+        fileWriter.copyLinearProgramm()
+
+        val fileInPath = File("${outputDirectory}/assignmentProblem.zpl")
+        assertThat(fileInPath.readBytes()).isEqualTo(oneByte)
+    }
+
     @AfterEach
     fun afterEach() {
         File(outputDirectory).deleteRecursively()
