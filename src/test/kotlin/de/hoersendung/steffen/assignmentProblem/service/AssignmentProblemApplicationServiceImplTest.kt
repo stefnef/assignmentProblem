@@ -1,6 +1,7 @@
 package de.hoersendung.steffen.assignmentProblem.service
 
 import de.hoersendung.steffen.assignmentProblem.service.priority.PriorityApplicationService
+import de.hoersendung.steffen.assignmentProblem.service.solving.SolvingApplicationService
 import de.hoersendung.steffen.assignmentProblem.service.subject.SubjectApplicationService
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
@@ -14,8 +15,10 @@ internal class AssignmentProblemApplicationServiceImplTest {
 
     private val subjectApplicationService : SubjectApplicationService = mock()
     private val priorityApplicationService : PriorityApplicationService = mock()
+    private val solvingApplicationService : SolvingApplicationService = mock()
+
     private val assignmentProblemApplicationServiceImpl = AssignmentProblemApplicationServiceImpl(subjectApplicationService,
-        priorityApplicationService)
+        priorityApplicationService, solvingApplicationService)
 
     @Test
     internal fun `it should load subjects and priorities`() {
@@ -23,5 +26,6 @@ internal class AssignmentProblemApplicationServiceImplTest {
 
         verify(priorityApplicationService).loadPriorities(priorities)
         verify(subjectApplicationService).loadCapacities(capacities)
+        verify(solvingApplicationService).solve()
     }
 }
