@@ -1,9 +1,9 @@
-set Students := { read "students.dat" as "<1s>" comment "#" };
-set Subjects := { read "subjects.dat" as "<1s>" comment "#" };
+set Students := { read "students.data" as "<1s>" comment "#" };
+set Subjects := { read "subjects.data" as "<1s>" comment "#" };
 set Connections :={ <s,k> in Students * Subjects };
 
-param c[Subjects] := read "subjects.dat" as "<1s> 2n" comment "#";
-param p[Connections] := read "priorities.dat" as "<1s,2s> 3n" comment "#";
+param c[Subjects] := read "subjects.data" as "<1s> 2n" comment "#";
+param p[Connections] := read "priorities.data" as "<1s,2s> 3n" comment "#";
 
 defset SubjectsOfStudent(s) := {<s, i> in Connections};
 defset StudentsOfSubject(k) := {<i, k> in Connections};

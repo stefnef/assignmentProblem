@@ -51,7 +51,8 @@ class FileWriterImpl(
     }
 
     override fun copyLinearProgramm() {
-        TODO("Not yet implemented")
+        val linearProgrammFile = File(ClassLoader.getSystemResource("assignmentProblem.zpl").file)
+        linearProgrammFile.copyTo(File("${outputConfiguration.directory}/assignmentProblem.zpl"))
     }
 
     private fun createOutputDirectoryIfNotExists() {

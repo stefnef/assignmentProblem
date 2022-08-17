@@ -67,6 +67,14 @@ internal class FileWriterImplTest {
         }
     }
 
+    @Test
+    internal fun `should copy the linear programm file`() {
+        fileWriter.copyLinearProgramm()
+
+        val file = File("${outputDirectory}/assignmentProblem.zpl")
+        assertThat(file.exists()).isTrue
+    }
+
     @AfterEach
     fun afterEach() {
         File(outputDirectory).deleteRecursively()
