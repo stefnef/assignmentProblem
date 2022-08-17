@@ -16,11 +16,12 @@ You can find sample files:
 
 ### Priority File
 The priority file contains all priorities in the following csv format:
-The header line need to hold the following values:
+
+- The header line need to hold the following values:
 
 `<StudentName>,<Year>,<SubjectName 1>,<SubjectName 2>,...`
 
-All following lines list the priorities of a specific student:
+- All following lines list the priorities of a specific student:
 
 `<StudentName 1>,<Year>,<Priority of Subject 1>, <Priority of Subect 2>,...`
 
@@ -29,13 +30,16 @@ All following lines list the priorities of a specific student:
 ### Capacity File
 The capacity file contains all subjects with their maximal number of students (capacities) in the following csv format:
 
-The header line need to hold the following values:
+- The header line need to hold the following values:
 
 `<SubjectName 1>,<SubjectName 2>,...`
 
-The second line list the capacities:
+- The second line list the capacities:
 
 `<Capacity of SubjectName 1>,<Capacity of SubjectName 1>,...`
 
 ## Using JarFile
 `java -jar assignmentProblem-<version>.jar --prio=<priority file> --cap=<capacity file>`
+
+## Output
+If successful all output files can be found in the directory `output`.
