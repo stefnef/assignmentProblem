@@ -50,6 +50,10 @@ class FileWriterImpl(
         }
     }
 
+    override fun copyLinearProgramm() {
+        TODO("Not yet implemented")
+    }
+
     private fun createOutputDirectoryIfNotExists() {
         val directory = File(outputConfiguration.directory)
         if (!directory.exists()) {

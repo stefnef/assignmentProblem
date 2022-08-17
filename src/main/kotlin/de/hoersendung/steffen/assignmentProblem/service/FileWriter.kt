@@ -7,5 +7,6 @@ interface FileWriter {
     fun writeSubjectsData(subjects: List<Subject>)
     fun writePupilsData(priorities: List<Priority>)
     fun writePriorityData(priorities: List<Priority>)
+    fun copyLinearProgramm()
 
 }
