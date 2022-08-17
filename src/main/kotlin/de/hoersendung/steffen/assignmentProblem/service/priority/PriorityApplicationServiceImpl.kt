@@ -2,10 +2,10 @@ package de.hoersendung.steffen.assignmentProblem.service.priority
 
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Assignment
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Priority
-import de.hoersendung.steffen.assignmentProblem.domain.entity.Pupil
+import de.hoersendung.steffen.assignmentProblem.domain.entity.Student
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PriorityValue
-import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PupilName
+import de.hoersendung.steffen.assignmentProblem.domain.valueObject.StudentName
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import de.hoersendung.steffen.assignmentProblem.repository.PriorityRepository
 import de.hoersendung.steffen.assignmentProblem.service.FileWriter
@@ -32,7 +32,7 @@ class PriorityApplicationServiceImpl(
                 throw IllegalArgumentException("file of priorities contains no or wrong formatted priority values")
             }
 
-            fileWriter.writePupilsData(savedPriorities)
+            fileWriter.writeStudentsData(savedPriorities)
             fileWriter.writePriorityData(savedPriorities)
 
         }
@@ -64,21 +64,21 @@ class PriorityApplicationServiceImpl(
         line: String,
         subjects: List<String>
     ): Int {
-        val prioritiesOfPupil = line.split(",")
+        val prioritiesOfStudent = line.split(",")
         val lineIndex = readLines + 1
         val numberOfExpectedSubjects = subjects.size
 
-        if (prioritiesOfPupil.size != (numberOfExpectedSubjects + 2)) {
+        if (prioritiesOfStudent.size != (numberOfExpectedSubjects + 2)) {
             throw IllegalArgumentException(
                 "could not parse file of priorities: " +
                         "Number of subjects in $lineIndex. line is not as expected ($numberOfExpectedSubjects). Check priority file"
             )
         }
-        val pupilName = PupilName("${prioritiesOfPupil[0]}_${prioritiesOfPupil[1]}")
+        val studentName = StudentName("${prioritiesOfStudent[0]}_${prioritiesOfStudent[1]}")
 
         subjects.forEachIndexed { subjectIndex, subjectName ->
             try {
-                readPriorityForSubject(SubjectName(subjectName), subjectIndex, prioritiesOfPupil, pupilName)
+                readPriorityForSubject(SubjectName(subjectName), subjectIndex, prioritiesOfStudent, studentName)
             } catch (e: Exception) {
                 throw IllegalArgumentException("could not parse file of priorities: ${e.message}")
             }
@@ -89,17 +89,17 @@ class PriorityApplicationServiceImpl(
     private fun readPriorityForSubject(
         subjectName: SubjectName,
         subjectIndex: Int,
-        prioritiesOfPupil: List<String>,
-        pupilName: PupilName
+        prioritiesOfStudent: List<String>,
+        studentName: StudentName
     ) {
         val capacity = subjectService.getCapacityForSubject(subjectName)
 
-        val priorityValue = PriorityValue(prioritiesOfPupil[subjectIndex + 2].toInt())
+        val priorityValue = PriorityValue(prioritiesOfStudent[subjectIndex + 2].toInt())
 
         repository.add(
             Priority(
                 Assignment(
-                    pupil = Pupil(pupilName),
+                    student = Student(studentName),
                     Subject(subjectName, capacity)
                 ),
                 priorityValue

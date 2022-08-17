@@ -3,11 +3,11 @@ package de.hoersendung.steffen.assignmentProblem.service.priority
 import de.hoersendung.steffen.assignmentProblem.defaults.*
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Assignment
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Priority
-import de.hoersendung.steffen.assignmentProblem.domain.entity.Pupil
+import de.hoersendung.steffen.assignmentProblem.domain.entity.Student
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.Capacity
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PriorityValue
-import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PupilName
+import de.hoersendung.steffen.assignmentProblem.domain.valueObject.StudentName
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import de.hoersendung.steffen.assignmentProblem.repository.PriorityRepository
 import de.hoersendung.steffen.assignmentProblem.service.FileWriter
@@ -40,7 +40,7 @@ internal class PriorityApplicationServiceImplTest {
         verify(repository).add(
             Priority(
                 Assignment(
-                    pupil = Pupil(PupilName("Bond_Q1")),
+                    student = Student(StudentName("Bond_Q1")),
                     subject = Subject(SubjectName("Sportkurs_1"), Capacity(1))
                 ),
                 PriorityValue(-1)
@@ -49,7 +49,7 @@ internal class PriorityApplicationServiceImplTest {
         verify(repository).add(
             Priority(
                 Assignment(
-                    pupil = Pupil(PupilName("Bond_Q1")),
+                    student = Student(StudentName("Bond_Q1")),
                     subject = Subject(SubjectName("Sportkurs_2"), Capacity(2))
                 ),
                 PriorityValue(2)
@@ -58,18 +58,18 @@ internal class PriorityApplicationServiceImplTest {
         verify(repository).add(
             Priority(
                 Assignment(
-                    pupil = Pupil(PupilName("Bond_Q1")),
+                    student = Student(StudentName("Bond_Q1")),
                     subject = Subject(SubjectName("Sportkurs_3"), Capacity(3))
                 ),
                 PriorityValue(1)
             ))
 
-        verify(fileWriter).writePupilsData(mockedListOfPriorities)
+        verify(fileWriter).writeStudentsData(mockedListOfPriorities)
         verify(fileWriter).writePriorityData(mockedListOfPriorities)
     }
 
     @Test
-    internal fun `should load priorities for more than one pupil`() {
+    internal fun `should load priorities for more than one student`() {
         given(subjectService.getNumberOfSubjects()).willReturn(2)
         given(subjectService.getCapacityForSubject(SubjectName("Sportkurs_1"))).willReturn(Capacity(1))
         given(subjectService.getCapacityForSubject(SubjectName("Sportkurs_2"))).willReturn(Capacity(2))
@@ -80,7 +80,7 @@ internal class PriorityApplicationServiceImplTest {
         verify(repository).add(
             Priority(
                 Assignment(
-                    pupil = Pupil(PupilName("Bond_Q1")),
+                    student = Student(StudentName("Bond_Q1")),
                     subject = Subject(SubjectName("Sportkurs_1"), Capacity(1))
                 ),
                 PriorityValue(-1)
@@ -89,7 +89,7 @@ internal class PriorityApplicationServiceImplTest {
         verify(repository).add(
             Priority(
                 Assignment(
-                    pupil = Pupil(PupilName("Bond_Q1")),
+                    student = Student(StudentName("Bond_Q1")),
                     subject = Subject(SubjectName("Sportkurs_2"), Capacity(2))
                 ),
                 PriorityValue(2)
@@ -98,7 +98,7 @@ internal class PriorityApplicationServiceImplTest {
         verify(repository).add(
             Priority(
                 Assignment(
-                    pupil = Pupil(PupilName("Mueller_Q3")),
+                    student = Student(StudentName("Mueller_Q3")),
                     subject = Subject(SubjectName("Sportkurs_1"), Capacity(1))
                 ),
                 PriorityValue(999)
@@ -107,7 +107,7 @@ internal class PriorityApplicationServiceImplTest {
         verify(repository).add(
             Priority(
                 Assignment(
-                    pupil = Pupil(PupilName("Mueller_Q3")),
+                    student = Student(StudentName("Mueller_Q3")),
                     subject = Subject(SubjectName("Sportkurs_2"), Capacity(2))
                 ),
                 PriorityValue(-1)

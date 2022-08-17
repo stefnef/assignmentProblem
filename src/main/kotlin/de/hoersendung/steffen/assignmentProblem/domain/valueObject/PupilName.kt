@@ -1,3 +1,3 @@
 package de.hoersendung.steffen.assignmentProblem.domain.valueObject
 
-data class PupilName(val value: String)
+data class StudentName(val value: String)

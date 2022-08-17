@@ -18,16 +18,16 @@ You can find sample files:
 The priority file contains all priorities in the following csv format:
 The header line need to hold the following values:
 
-`<PupilName>,<Year>,<SubjectName 1>,<SubjectName 2>,...`
+`<StudentName>,<Year>,<SubjectName 1>,<SubjectName 2>,...`
 
-All following lines list the priorities of a specific pupil:
+All following lines list the priorities of a specific student:
 
-`<PupilName 1>,<Year>,<Priority of Subject 1>, <Priority of Subect 2>,...`
+`<StudentName 1>,<Year>,<Priority of Subject 1>, <Priority of Subect 2>,...`
 
-`<PupilName 2>,<Year>,<Priority of Subject 1>, <Priority of Subect 2>,...`
+`<StudentName 2>,<Year>,<Priority of Subject 1>, <Priority of Subect 2>,...`
 
 ### Capacity File
-The capacity file contains all subjects with their maximal number of pupils (capacities) in the following csv format:
+The capacity file contains all subjects with their maximal number of students (capacities) in the following csv format:
 
 The header line need to hold the following values:
 

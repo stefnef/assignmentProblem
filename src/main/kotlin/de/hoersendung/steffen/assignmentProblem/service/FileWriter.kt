@@ -5,7 +5,7 @@ import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 
 interface FileWriter {
     fun writeSubjectsData(subjects: List<Subject>)
-    fun writePupilsData(priorities: List<Priority>)
+    fun writeStudentsData(priorities: List<Priority>)
     fun writePriorityData(priorities: List<Priority>)
     fun copyLinearProgramm()
 

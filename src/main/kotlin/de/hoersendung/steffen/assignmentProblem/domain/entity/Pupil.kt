@@ -1,5 +1,5 @@
 package de.hoersendung.steffen.assignmentProblem.domain.entity
 
-import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PupilName
+import de.hoersendung.steffen.assignmentProblem.domain.valueObject.StudentName
 
-data class Pupil(val name: PupilName)
+data class Student(val name: StudentName)

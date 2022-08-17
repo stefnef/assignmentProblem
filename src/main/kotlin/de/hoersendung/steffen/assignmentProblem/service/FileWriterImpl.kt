@@ -24,14 +24,14 @@ class FileWriterImpl(
         }
     }
 
-    override fun writePupilsData(priorities: List<Priority>) {
+    override fun writeStudentsData(priorities: List<Priority>) {
         createOutputDirectoryIfNotExists()
 
-        FileOutputStream("${outputConfiguration.directory}/pupils.data").apply {
+        FileOutputStream("${outputConfiguration.directory}/students.data").apply {
             val writer = bufferedWriter()
-            writer.write("# PupilName_Quartal\n")
-            priorities.map { it.assignment.pupil }.toSet().forEach { pupil ->
-                writer.write("${pupil.name.value}\n")
+            writer.write("# StudentName_Quartal\n")
+            priorities.map { it.assignment.student }.toSet().forEach { student ->
+                writer.write("${student.name.value}\n")
             }
             writer.flush()
         }
@@ -41,9 +41,9 @@ class FileWriterImpl(
         createOutputDirectoryIfNotExists()
         FileOutputStream("${outputConfiguration.directory}/priorities.data").apply {
             val writer = bufferedWriter()
-            writer.write("# PupilName_Quartal Subject Priority\n")
+            writer.write("# StudentName_Quartal Subject Priority\n")
             priorities.forEach {
-                writer.write("${it.assignment.pupil.name.value} ${it.assignment.subject.name.value} ")
+                writer.write("${it.assignment.student.name.value} ${it.assignment.subject.name.value} ")
                 writer.write("${it.priorityValue.value}\n")
             }
             writer.flush()

@@ -1,7 +1,7 @@
 package de.hoersendung.steffen.assignmentProblem.service
 
 import de.hoersendung.steffen.assignmentProblem.configuration.OutputConfiguration
-import de.hoersendung.steffen.assignmentProblem.defaults.prioritiesTwoPupilsTwoSubjects
+import de.hoersendung.steffen.assignmentProblem.defaults.prioritiesTwoStudentsTwoSubjects
 import de.hoersendung.steffen.assignmentProblem.defaults.threeSubjects
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
@@ -33,15 +33,15 @@ internal class FileWriterImplTest {
     }
 
     @Test
-    internal fun `should write pupils to data file`() {
-        fileWriter.writePupilsData(prioritiesTwoPupilsTwoSubjects())
+    internal fun `should write students to data file`() {
+        fileWriter.writeStudentsData(prioritiesTwoStudentsTwoSubjects())
 
-        val file = File("${outputDirectory}/pupils.data")
+        val file = File("${outputDirectory}/students.data")
         assertThat(file.exists()).isTrue
 
         file.inputStream().apply {
             val reader = bufferedReader()
-            assertThat(reader.readLine()).isEqualTo("# PupilName_Quartal")
+            assertThat(reader.readLine()).isEqualTo("# StudentName_Quartal")
             assertThat(reader.readLine()).isEqualTo("Anna_Q1")
             assertThat(reader.readLine()).isEqualTo("Bob_Q2")
             assertThat(reader.readLine()).isNull()
@@ -51,14 +51,14 @@ internal class FileWriterImplTest {
 
     @Test
     internal fun `should write priorities to data file`() {
-        fileWriter.writePriorityData(prioritiesTwoPupilsTwoSubjects())
+        fileWriter.writePriorityData(prioritiesTwoStudentsTwoSubjects())
 
         val file = File("${outputDirectory}/priorities.data")
         assertThat(file.exists()).isTrue
 
         file.inputStream().apply {
             val reader = bufferedReader()
-            assertThat(reader.readLine()).isEqualTo("# PupilName_Quartal Subject Priority")
+            assertThat(reader.readLine()).isEqualTo("# StudentName_Quartal Subject Priority")
             assertThat(reader.readLine()).isEqualTo("Anna_Q1 Sub_First 1")
             assertThat(reader.readLine()).isEqualTo("Anna_Q1 Sub_Second 2")
             assertThat(reader.readLine()).isEqualTo("Bob_Q2 Sub_First 10")
