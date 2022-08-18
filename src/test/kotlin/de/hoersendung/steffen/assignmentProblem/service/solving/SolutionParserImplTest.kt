@@ -27,6 +27,13 @@ internal class SolutionParserImplTest{
 
     @Test
     internal fun `should parse optimal solution`() {
+        val solution = parser.parseToList(rawOutput)
+
+        assertThat(solution.size).isEqualTo(2)
+    }
+
+    @Test
+    internal fun `should remove unnecessary text`() {
         val solution = parser.parse(rawOutput)
 
         assertThat(solution).contains("Bond")
