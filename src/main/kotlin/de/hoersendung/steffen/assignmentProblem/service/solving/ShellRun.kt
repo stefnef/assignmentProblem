@@ -1,6 +1,7 @@
 package de.hoersendung.steffen.assignmentProblem.service.solving
 
-interface MIPSolver {
-    fun solve() : String
+interface ShellRun {
+
+    fun execute(): String
 
 }
