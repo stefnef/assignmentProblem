@@ -1,9 +1,8 @@
 package de.hoersendung.steffen.assignmentProblem.service.solving
 
-import de.hoersendung.steffen.assignmentProblem.domain.entity.Assignment
+import de.hoersendung.steffen.assignmentProblem.domain.entity.SolutionAssignment
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Student
-import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
-import de.hoersendung.steffen.assignmentProblem.domain.valueObject.Capacity
+import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PriorityValue
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.StudentName
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import org.springframework.stereotype.Service
@@ -27,21 +26,36 @@ class SolutionParserImpl : SolutionParser {
         return substringAfter("objective value:")
     }
 
-    fun parseToList(solutionText: String): List<Assignment> {
+    fun parseToList(solutionText: String): List<SolutionAssignment> {
         val optimalSolution = extractSolutionInformation(solutionText)
-        val assignments = mutableListOf<Assignment>()
-
+        val assignments = mutableListOf<SolutionAssignment>()
 
             optimalSolution.lines().forEach {line ->
                 if (line.contains("$")) {
-                    val info = line.split("$") //TODO do not name it 'info'
-                    val assignment = Assignment(
-                        Student(StudentName(info[1])),
-                        Subject(SubjectName(info[2]), Capacity(1))
-                    ) //TODO handle index //TODO find subject
-                    assignments.add(assignment)
+                    assignments.add(line.parseSolutionAssignment())
                 }
             }
         return assignments
+    }
+
+    private fun String.parseSolutionAssignment(): SolutionAssignment {
+        val solutionValues = split("$")
+        return SolutionAssignment(
+            Student(solutionValues.parseStudentName()),
+            solutionValues.parseSubjectName(),
+            solutionValues.parsePriorityValue()
+        )
+    }
+
+    fun List<String>.parseStudentName() : StudentName {
+        return StudentName(this[1])
+    }
+
+    fun List<String>.parseSubjectName() : SubjectName {
+        return SubjectName(this[2].substringBefore(" "))
+    }
+
+    fun List<String>.parsePriorityValue() : PriorityValue {
+        return PriorityValue(this[2].substringAfter("(obj:").substringBefore(")").toInt())
     }
 }
