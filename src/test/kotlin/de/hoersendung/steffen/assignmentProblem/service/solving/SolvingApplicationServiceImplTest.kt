@@ -7,16 +7,16 @@ import de.hoersendung.steffen.assignmentProblem.domain.valueObject.StudentName
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import de.hoersendung.steffen.assignmentProblem.service.FileWriter
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.given
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.verify
+import org.mockito.kotlin.*
+import org.slf4j.Logger
 
 internal class SolvingApplicationServiceImplTest {
 
     private val fileWrite : FileWriter = mock()
     private val mipSolver : MIPSolver = mock()
+    private val logger : Logger = mock()
 
-    private val solvingApplicationService = SolvingApplicationServiceImpl(fileWrite, mipSolver)
+    private val solvingApplicationService = SolvingApplicationServiceImpl(fileWrite, mipSolver, logger)
 
     @Test
     internal fun `should add zpl file from classpath`() {
@@ -35,4 +35,16 @@ internal class SolvingApplicationServiceImplTest {
         verify(mipSolver).solve()
         verify(fileWrite).writeSolution(solution)
     }
+
+    @Test
+    internal fun `should not write file if there was no solution found`() {
+        given(mipSolver.solve()).willReturn(emptyList())
+
+        solvingApplicationService.solve()
+
+        verify(fileWrite, never()).writeSolution(any())
+        verify(logger).warn("Problem is infeasible - no solution found!")
+    }
+
+
 }
