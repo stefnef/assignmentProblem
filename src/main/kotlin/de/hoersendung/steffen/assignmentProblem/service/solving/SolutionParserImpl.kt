@@ -1,7 +1,6 @@
 package de.hoersendung.steffen.assignmentProblem.service.solving
 
 import de.hoersendung.steffen.assignmentProblem.domain.entity.SolutionAssignment
-import de.hoersendung.steffen.assignmentProblem.domain.entity.Student
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PriorityValue
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.StudentName
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
@@ -35,7 +34,7 @@ class SolutionParserImpl() : SolutionParser {
     private fun String.parseSolutionAssignment(): SolutionAssignment {
         val solutionValues = split("$")
         return SolutionAssignment(
-            Student(solutionValues.parseStudentName()),
+            solutionValues.parseStudentName(),
             solutionValues.parseSubjectName(),
             solutionValues.parsePriorityValue()
         )

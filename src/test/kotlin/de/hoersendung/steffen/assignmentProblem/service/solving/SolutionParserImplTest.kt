@@ -1,7 +1,6 @@
 package de.hoersendung.steffen.assignmentProblem.service.solving
 
 import de.hoersendung.steffen.assignmentProblem.domain.entity.SolutionAssignment
-import de.hoersendung.steffen.assignmentProblem.domain.entity.Student
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PriorityValue
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.StudentName
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
@@ -34,11 +33,11 @@ internal class SolutionParserImplTest{
     internal fun `should parse optimal solution`() {
         val solution : List<SolutionAssignment> = parser.parse(rawOutput)
         val bond = SolutionAssignment(
-            Student(StudentName("Bond_Q1")),
+            StudentName("Bond_Q1"),
             SubjectName("Sportkurs_2"),
             PriorityValue(2) )
         val mueller = SolutionAssignment(
-            Student(StudentName("Mueller_Q3")),
+            StudentName("Mueller_Q3"),
             SubjectName("Sportkurs_1"),
             PriorityValue(999) )
 
