@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service
 @Service
 class SolutionParserImpl() : SolutionParser {
 
+    //TODO handle if no solution was found
+
     override fun parse(solutionText: String): List<SolutionAssignment> {
         val optimalSolution = extractSolutionInformation(solutionText)
         val assignments = mutableListOf<SolutionAssignment>()
