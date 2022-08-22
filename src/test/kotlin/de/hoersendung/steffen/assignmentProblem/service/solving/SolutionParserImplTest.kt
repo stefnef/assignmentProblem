@@ -2,6 +2,7 @@ package de.hoersendung.steffen.assignmentProblem.service.solving
 
 import de.hoersendung.steffen.assignmentProblem.domain.entity.SolutionAssignment
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PriorityValue
+import de.hoersendung.steffen.assignmentProblem.domain.valueObject.Quartal
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.StudentName
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import org.assertj.core.api.Assertions.assertThat
@@ -33,13 +34,17 @@ internal class SolutionParserImplTest{
     internal fun `should parse optimal solution`() {
         val solution : List<SolutionAssignment> = parser.parse(rawOutput)
         val bond = SolutionAssignment(
-            StudentName("Bond_Q1"),
+            StudentName("Bond"),
+            Quartal("Q1"),
             SubjectName("Sportkurs_2"),
-            PriorityValue(2) )
+            PriorityValue(2)
+        )
         val mueller = SolutionAssignment(
-            StudentName("Mueller_Q3"),
+            StudentName("Mueller"),
+            Quartal("Q3"),
             SubjectName("Sportkurs_1"),
-            PriorityValue(999) )
+            PriorityValue(999)
+        )
 
         assertThat(solution.size).isEqualTo(2)
         assertThat(solution[0]).isEqualTo(bond)

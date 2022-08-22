@@ -66,7 +66,16 @@ class FileWriterImpl(
     }
 
     override fun writeSolution(solution: List<SolutionAssignment>) {
-        TODO("Not yet implemented")
+        FileOutputStream("${outputConfiguration.directory}/solution.csv").apply {
+            val writer = bufferedWriter()
+            writer.write("Student, Quartal, Subject, Priority\n")
+            solution.sortedBy { assignment -> assignment.student.value }.forEach {
+                writer.write("${it.student},")
+                writer.write("${it.subjectName},")
+                writer.write("${it.priorityValue}\n")
+            }
+            writer.flush()
+        }
     }
 
     private fun createOutputDirectoryIfNotExists() {

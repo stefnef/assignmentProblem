@@ -2,6 +2,7 @@ package de.hoersendung.steffen.assignmentProblem.service.solving
 
 import de.hoersendung.steffen.assignmentProblem.domain.entity.SolutionAssignment
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PriorityValue
+import de.hoersendung.steffen.assignmentProblem.domain.valueObject.Quartal
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.StudentName
 import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import org.springframework.stereotype.Service
@@ -37,13 +38,18 @@ class SolutionParserImpl() : SolutionParser {
         val solutionValues = split("$")
         return SolutionAssignment(
             solutionValues.parseStudentName(),
+            solutionValues.parseQuartal(),
             solutionValues.parseSubjectName(),
             solutionValues.parsePriorityValue()
         )
     }
 
     fun List<String>.parseStudentName() : StudentName {
-        return StudentName(this[1])
+        return StudentName(this[1].substringBefore("_"))
+    }
+
+    fun List<String>.parseQuartal() : Quartal {
+        return Quartal(this[1].substringAfter("_"))
     }
 
     fun List<String>.parseSubjectName() : SubjectName {
