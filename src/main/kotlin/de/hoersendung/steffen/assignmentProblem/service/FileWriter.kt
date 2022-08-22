@@ -1,6 +1,7 @@
 package de.hoersendung.steffen.assignmentProblem.service
 
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Priority
+import de.hoersendung.steffen.assignmentProblem.domain.entity.SolutionAssignment
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 
 interface FileWriter {
@@ -8,5 +9,6 @@ interface FileWriter {
     fun writeStudentsData(priorities: List<Priority>)
     fun writePriorityData(priorities: List<Priority>)
     fun copyLinearProgramm()
+    fun writeSolution(solution: List<SolutionAssignment>)
 
 }

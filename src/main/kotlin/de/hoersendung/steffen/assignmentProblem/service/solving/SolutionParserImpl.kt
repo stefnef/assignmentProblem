@@ -8,12 +8,18 @@ import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import org.springframework.stereotype.Service
 
 @Service
-class SolutionParserImpl : SolutionParser {
+class SolutionParserImpl() : SolutionParser {
 
-    override fun parse(solutionText: String): String {
+    override fun parse(solutionText: String): List<SolutionAssignment> {
+        val optimalSolution = extractSolutionInformation(solutionText)
+        val assignments = mutableListOf<SolutionAssignment>()
 
-        var solution = extractSolutionInformation(solutionText)
-        return solution
+            optimalSolution.lines().forEach {line ->
+                if (line.contains("$")) {
+                    assignments.add(line.parseSolutionAssignment())
+                }
+            }
+        return assignments
     }
 
     private fun extractSolutionInformation(solutionText: String): String {
@@ -24,18 +30,6 @@ class SolutionParserImpl : SolutionParser {
 
     private fun String.removePrefix(): String {
         return substringAfter("objective value:")
-    }
-
-    fun parseToList(solutionText: String): List<SolutionAssignment> {
-        val optimalSolution = extractSolutionInformation(solutionText)
-        val assignments = mutableListOf<SolutionAssignment>()
-
-            optimalSolution.lines().forEach {line ->
-                if (line.contains("$")) {
-                    assignments.add(line.parseSolutionAssignment())
-                }
-            }
-        return assignments
     }
 
     private fun String.parseSolutionAssignment(): SolutionAssignment {

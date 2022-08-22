@@ -32,7 +32,7 @@ internal class SolutionParserImplTest{
 
     @Test
     internal fun `should parse optimal solution`() {
-        val solution : List<SolutionAssignment> = parser.parseToList(rawOutput)
+        val solution : List<SolutionAssignment> = parser.parse(rawOutput)
         val bond = SolutionAssignment(
             Student(StudentName("Bond_Q1")),
             SubjectName("Sportkurs_2"),
@@ -47,13 +47,4 @@ internal class SolutionParserImplTest{
         assertThat(solution[1]).isEqualTo(mueller)
     }
 
-    @Test
-    internal fun `should remove unnecessary text`() {
-        val solution = parser.parse(rawOutput)
-
-        assertThat(solution).contains("Bond")
-        assertThat(solution).doesNotContain("Gap")
-        assertThat(solution).doesNotContain("Statistics")
-        assertThat(solution).hasLineCount(3)
-    }
 }

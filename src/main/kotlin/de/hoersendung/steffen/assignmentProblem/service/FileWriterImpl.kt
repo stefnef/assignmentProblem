@@ -2,6 +2,7 @@ package de.hoersendung.steffen.assignmentProblem.service
 
 import de.hoersendung.steffen.assignmentProblem.configuration.OutputConfiguration
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Priority
+import de.hoersendung.steffen.assignmentProblem.domain.entity.SolutionAssignment
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
@@ -62,6 +63,10 @@ class FileWriterImpl(
                input.copyTo(output)
            }
         }
+    }
+
+    override fun writeSolution(solution: List<SolutionAssignment>) {
+        TODO("Not yet implemented")
     }
 
     private fun createOutputDirectoryIfNotExists() {

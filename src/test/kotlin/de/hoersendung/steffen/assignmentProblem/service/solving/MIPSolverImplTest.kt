@@ -1,5 +1,10 @@
 package de.hoersendung.steffen.assignmentProblem.service.solving
 
+import de.hoersendung.steffen.assignmentProblem.domain.entity.SolutionAssignment
+import de.hoersendung.steffen.assignmentProblem.domain.entity.Student
+import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PriorityValue
+import de.hoersendung.steffen.assignmentProblem.domain.valueObject.StudentName
+import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.given
@@ -16,7 +21,7 @@ internal class MIPSolverImplTest {
 
     @Test
     internal fun `it should solve`() {
-        val solution = ""
+        val solution = listOf(SolutionAssignment(Student(StudentName("Peter")), SubjectName("Sport"), PriorityValue(1)))
         given(shellRun.execute()).willReturn(rawOutput)
         given(solutionParser.parse(rawOutput)).willReturn(solution)
 
