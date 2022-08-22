@@ -11,6 +11,7 @@ class SolvingApplicationServiceImpl(
 
     override fun solve() {
         fileWrite.copyLinearProgramm()
-        mipSolver.solve()
+        val solution = mipSolver.solve()
+        fileWrite.writeSolution(solution)
     }
 }
