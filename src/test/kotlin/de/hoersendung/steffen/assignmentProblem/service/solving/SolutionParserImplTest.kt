@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 
 internal class SolutionParserImplTest{
 
-    private val rawOutput = """
+    private val rawSolution = """
         Pre
         Gap                : 0.00 %
 
@@ -28,11 +28,28 @@ internal class SolutionParserImplTest{
 
     """
 
+    private val rawInfeasible = """      
+        primal solution (original space):
+        =================================
+        
+        no solution available
+        
+        Statistics
+        ==========
+        
+         
+            """
+
     private val parser = SolutionParserImpl()
 
     @Test
+    internal fun `should not parse a solution if there exsists no one`() {
+        assertThat(parser.parse(rawInfeasible)).isEmpty()
+    }
+
+    @Test
     internal fun `should parse optimal solution`() {
-        val solution : List<SolutionAssignment> = parser.parse(rawOutput)
+        val solution : List<SolutionAssignment> = parser.parse(rawSolution)
         val bond = SolutionAssignment(
             StudentName("Bond"),
             Quartal("Q1"),
