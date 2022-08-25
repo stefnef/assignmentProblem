@@ -12,87 +12,42 @@ import java.io.File
 internal class AssignmentProblemApplicationTest {
 
     private val logger : Logger = mock()
+    private val configFile = ConfigFile(configFile = "")
     private val applicationService : AssignmentProblemApplicationService = mock()
-    private val assignmentProblemApplication = AssignmentProblemApplication(logger, ConfigFile(""), applicationService)
+    private val assignmentProblemApplication = AssignmentProblemApplication(logger, configFile, applicationService)
 
     private val basePath = "src/test/files"
-    private val prioritiesPath = "$basePath/priority"
-    private val capacityPath = "$basePath/capacity"
+    private val configPath = "$basePath/configuration"
 
     @Test
-    fun `it should accept a priority and capacity arguments`() {
-        val args = DefaultApplicationArguments("--prio=${prioritiesPath}/priorities.csv", "--cap=${capacityPath}/capacities.csv")
+    internal fun `it should throw exception if priority file does not exist`() {
+        configFile.configFile = "$configPath/configWrongPriority.json"
+        assignmentProblemApplication.run(DefaultApplicationArguments())
 
-        assignmentProblemApplication.run(args)
+        verify(logger).error("File \"src/test/files/priority/i-do-not-exist.csv\" was not found")
+        verify(logger, never()).error("File \"src/test/files/capacity/capacities.csv\" was not found")
+        verify(applicationService, never()).solveProblem(any(), any())
+    }
 
-        verify(logger, never()).error(any())
+    @Test
+    internal fun `it should throw exception if capacity file does not exist`() {
+        configFile.configFile = "$configPath/configWrongCapacity.json"
+        assignmentProblemApplication.run(DefaultApplicationArguments())
+
+        verify(logger).error("File \"src/test/files/capacity/i-do-not-exist.csv\" was not found")
+        verify(logger, never()).error("File \"src/test/files/priority/priorities.csv\" was not found")
+        verify(applicationService, never()).solveProblem(any(), any())
+    }
+
+    @Test
+    internal fun `it should start solving`() {
+        configFile.configFile = "$configPath/config.json"
+        assignmentProblemApplication.run(DefaultApplicationArguments())
+
         argumentCaptor<File>().apply {
             verify(applicationService).solveProblem(capture(), capture())
             assertThat(firstValue.name).isEqualTo("priorities.csv")
             assertThat(secondValue.name).isEqualTo("capacities.csv")
         }
-    }
-
-    @Test
-    fun `it should log usage if priority argument is missing`() {
-        val args = DefaultApplicationArguments("--neverEver=3", "--cap=\"capacities.csv\"")
-        assignmentProblemApplication.run(args)
-        verifyThatUsageMessageWasCalled()
-    }
-
-    @Test
-    fun `it should log usage if subject argument is missing`() {
-        val args = DefaultApplicationArguments("--neverEver=3", "--prio=\"prio.csv\"")
-        assignmentProblemApplication.run(args)
-        verifyThatUsageMessageWasCalled()
-    }
-
-    @Test
-    internal fun `it should not accept empty argument list`() {
-        assignmentProblemApplication.run(null)
-        verifyThatUsageMessageWasCalled()
-    }
-
-    @Test
-    internal fun `should handle wrong number of arguments`() {
-        val args = DefaultApplicationArguments("--neverEver=someThing")
-        assignmentProblemApplication.run(args)
-        verifyThatUsageMessageWasCalled()
-    }
-
-    @Test
-    internal fun `should log that priorities file does not exist`() {
-        val args = DefaultApplicationArguments("--prio=i-do-not-exist.csv", "--cap=capacities.csv")
-
-        assignmentProblemApplication.run(args)
-
-        verify(logger).error("File \"i-do-not-exist.csv\" was not found")
-        verify(logger, never()).error("File \"capacities.csv\" was not found")
-    }
-
-    @Test
-    internal fun `should log that capacities file does not exist`() {
-        val args = DefaultApplicationArguments("--prio=${prioritiesPath}/priorities.csv", "--cap=never-existed.csv")
-
-        assignmentProblemApplication.run(args)
-
-        verify(logger).error("File \"never-existed.csv\" was not found")
-    }
-
-    @Test
-    internal fun `it should propagate Exceptions`() {
-        val args = DefaultApplicationArguments("--prio=${prioritiesPath}/priorities.csv", "--cap=${capacityPath}/capacities.csv")
-        given(applicationService.solveProblem(any(), any())).willThrow(IllegalArgumentException("Fake"))
-
-        assignmentProblemApplication.run(args)
-
-        verify(logger).error("Fake")
-    }
-
-    private fun verifyThatUsageMessageWasCalled() {
-        verify(logger).error("wrong or missing arguments")
-        verify(logger).error("usage: --prio=\"<path to file of priorities>\" --cap=\"<path to file of capacities>\"")
-        verify(logger).error("note that both files have to be in csv format")
-        verify(applicationService, never()).solveProblem(any(), any())
     }
 }

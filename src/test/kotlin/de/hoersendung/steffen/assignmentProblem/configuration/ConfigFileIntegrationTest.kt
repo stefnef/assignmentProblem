@@ -13,6 +13,6 @@ internal class ConfigFileIntegrationTest {
 
     @Test
     internal fun `it should load configuration file`() {
-        assertThat(configFile.configFile).isEqualTo("src/test/files/config.json")
+        assertThat(configFile.configFile).isEqualTo("src/test/files/configuration/config.json")
     }
 }

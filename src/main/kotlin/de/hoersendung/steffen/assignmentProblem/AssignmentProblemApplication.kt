@@ -20,12 +20,11 @@ class AssignmentProblemApplication(
     private val applicationService: AssignmentProblemApplicationService) : ApplicationRunner {
 
     override fun run(args: ApplicationArguments?) {
-        if (!isArgumentListValid(args)) {
-            return
-        }
+        val configuration = readConfiguration()
 
-        val priorities = getFile(args!!, "prio") ?: return
-        val capacities = getFile(args, "cap") ?: return
+        val priorities = getFile(configuration.priorities) ?: return
+        val capacities = getFile(configuration.capacities) ?: return
+
         try {
             applicationService.solveProblem(priorities, capacities)
         } catch (e: Exception) {
@@ -34,38 +33,13 @@ class AssignmentProblemApplication(
 
     }
 
-    private fun getFile(args: ApplicationArguments, optionName: String) : File? {
-        val fileName = args.getOptionValues(optionName).single()
+    private fun getFile(fileName: String) : File? {
         val file = File(fileName)
         if (!file.exists()) {
             logger.error("File \"${fileName}\" was not found")
             return null
         }
         return file
-    }
-
-    private fun isArgumentListValid(args: ApplicationArguments?) : Boolean {
-        if (args == null) {
-            logUsageText()
-            return false
-        }
-
-        if (args.optionNames.size != 2) {
-            logUsageText()
-            return false
-        }
-
-        if (!args.optionNames.contains("prio") || !args.optionNames.contains("cap")) {
-            logUsageText()
-            return false
-        }
-        return true
-    }
-
-    private fun logUsageText() {
-        logger.error("wrong or missing arguments")
-        logger.error("usage: --prio=\"<path to file of priorities>\" --cap=\"<path to file of capacities>\"")
-        logger.error("note that both files have to be in csv format")
     }
 
     fun readConfiguration() : SolverConfiguration {

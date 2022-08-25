@@ -1,0 +1,5 @@
+{
+  "priorities": "src/test/files/priority/i-do-not-exist.csv",
+  "capacities": "src/test/files/capacity/capacities.csv",
+  "scip": "scip"
+}
