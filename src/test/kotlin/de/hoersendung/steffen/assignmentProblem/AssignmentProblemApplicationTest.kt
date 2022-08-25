@@ -1,5 +1,6 @@
 package de.hoersendung.steffen.assignmentProblem
 
+import de.hoersendung.steffen.assignmentProblem.configuration.ConfigFile
 import de.hoersendung.steffen.assignmentProblem.service.AssignmentProblemApplicationService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -12,7 +13,7 @@ internal class AssignmentProblemApplicationTest {
 
     private val logger : Logger = mock()
     private val applicationService : AssignmentProblemApplicationService = mock()
-    private val assignmentProblemApplication = AssignmentProblemApplication(logger, applicationService)
+    private val assignmentProblemApplication = AssignmentProblemApplication(logger, ConfigFile(""), applicationService)
 
     private val basePath = "src/test/files"
     private val prioritiesPath = "$basePath/priority"

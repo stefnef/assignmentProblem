@@ -1,5 +1,8 @@
 package de.hoersendung.steffen.assignmentProblem
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import de.hoersendung.steffen.assignmentProblem.configuration.ConfigFile
+import de.hoersendung.steffen.assignmentProblem.configuration.SolverConfiguration
 import de.hoersendung.steffen.assignmentProblem.service.AssignmentProblemApplicationService
 import org.slf4j.Logger
 import org.springframework.boot.ApplicationArguments
@@ -13,6 +16,7 @@ import java.io.File
 @ConfigurationPropertiesScan
 class AssignmentProblemApplication(
     private val logger : Logger,
+    private val configFile: ConfigFile,
     private val applicationService: AssignmentProblemApplicationService) : ApplicationRunner {
 
     override fun run(args: ApplicationArguments?) {
@@ -62,6 +66,10 @@ class AssignmentProblemApplication(
         logger.error("wrong or missing arguments")
         logger.error("usage: --prio=\"<path to file of priorities>\" --cap=\"<path to file of capacities>\"")
         logger.error("note that both files have to be in csv format")
+    }
+
+    fun readConfiguration() : SolverConfiguration {
+        return jacksonObjectMapper().readValue(File(configFile.configFile), SolverConfiguration::class.java)
     }
 }
 
