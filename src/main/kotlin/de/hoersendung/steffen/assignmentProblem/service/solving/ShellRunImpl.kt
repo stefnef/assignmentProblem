@@ -17,12 +17,16 @@ class ShellRunImpl(
         }
     }
 
+    override fun isSolverConfigured(): Boolean {
+        return COMMAND != ""
+    }
+
     private fun runCommand() = shellRun(COMMAND, listOf("-f", "${outputConfiguration.directory}/assignmentProblem.zpl"))
 
     private fun errorMessage(e: RuntimeException) =
         e.message ?: "could not run command \"$COMMAND -f ${outputConfiguration.directory}/assignmentProblem.zpl\""
 
     companion object {
-        lateinit var COMMAND: String
+        var COMMAND = ""
     }
 }

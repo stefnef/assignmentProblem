@@ -4,5 +4,6 @@ import de.hoersendung.steffen.assignmentProblem.domain.entity.SolutionAssignment
 
 interface MIPSolver {
     fun solve() : List<SolutionAssignment>
+    fun isSolverConfigured(): Boolean
 
 }

@@ -20,6 +20,7 @@ internal class SolvingApplicationServiceImplTest {
 
     @Test
     internal fun `should add zpl file from classpath`() {
+        given(mipSolver.isSolverConfigured()).willReturn(true)
         val solution = listOf(SolutionAssignment(
             StudentName("Alice"),
             Quartal("Q1"),
@@ -38,6 +39,7 @@ internal class SolvingApplicationServiceImplTest {
 
     @Test
     internal fun `should not write file if there was no solution found`() {
+        given(mipSolver.isSolverConfigured()).willReturn(true)
         given(mipSolver.solve()).willReturn(emptyList())
 
         solvingApplicationService.solve()
@@ -46,5 +48,13 @@ internal class SolvingApplicationServiceImplTest {
         verify(logger).warn("Problem is infeasible - no solution found!")
     }
 
+    @Test
+    internal fun `should log if no solver was configured`() {
+        given(mipSolver.isSolverConfigured()).willReturn(false)
 
+        solvingApplicationService.solve()
+
+        verify(fileWrite, never()).writeSolution(any())
+        verify(logger).warn("No solver configured - no solution found!")
+    }
 }

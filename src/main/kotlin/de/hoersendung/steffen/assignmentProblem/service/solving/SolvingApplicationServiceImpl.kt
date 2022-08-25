@@ -14,6 +14,15 @@ class SolvingApplicationServiceImpl(
 
     override fun solve() {
         fileWrite.copyLinearProgramm()
+        val isSolverConfigured = mipSolver.isSolverConfigured()
+        if (isSolverConfigured) {
+            solveAndReturnSolution()
+        } else {
+            logger.warn("No solver configured - no solution found!")
+        }
+    }
+
+    private fun solveAndReturnSolution() {
         val solution = mipSolver.solve()
         checkSolution(solution)
     }

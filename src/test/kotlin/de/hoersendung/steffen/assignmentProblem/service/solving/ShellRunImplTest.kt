@@ -18,4 +18,18 @@ internal class ShellRunImplTest {
         val rawOutput = runner.execute()
         assertThat(rawOutput).contains("some/directory/assignmentProblem.zpl")
     }
+
+    @Test
+    internal fun `it should return false if no solver was configured`() {
+        ShellRunImpl.COMMAND = ""
+
+        assertThat(runner.isSolverConfigured()).isFalse
+    }
+
+    @Test
+    internal fun `it should return true if a solver was configured`() {
+        ShellRunImpl.COMMAND = "something"
+
+        assertThat(runner.isSolverConfigured()).isTrue
+    }
 }
