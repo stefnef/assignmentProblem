@@ -2,6 +2,7 @@ package de.hoersendung.steffen.assignmentProblem
 
 import de.hoersendung.steffen.assignmentProblem.configuration.ConfigFile
 import de.hoersendung.steffen.assignmentProblem.service.AssignmentProblemApplicationService
+import de.hoersendung.steffen.assignmentProblem.service.solving.ShellRunImpl
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.*
@@ -37,6 +38,21 @@ internal class AssignmentProblemApplicationTest {
         verify(logger).error("File \"src/test/files/capacity/i-do-not-exist.csv\" was not found")
         verify(logger, never()).error("File \"src/test/files/priority/priorities.csv\" was not found")
         verify(applicationService, never()).solveProblem(any(), any())
+    }
+
+    @Test
+    internal fun `should set solver configuration`() {
+        configFile.configFile = "$configPath/config.json"
+        assignmentProblemApplication.run(DefaultApplicationArguments())
+
+        assertThat(ShellRunImpl.COMMAND).isEqualTo("scip")
+    }
+
+    @Test
+    internal fun `should log if configFile was not found`() {
+        configFile.configFile = "i-do-not-exist"
+        assignmentProblemApplication.run(DefaultApplicationArguments())
+        verify(logger).error("could not find config file \"i-do-not-exist\"")
     }
 
     @Test

@@ -22,7 +22,7 @@ internal class AssignmentProblemApplicationIntegrationTest {
     @Test
     internal fun `should read configuration file`() {
         val configuration = app.readConfiguration()
-        assertThat(configuration.priorities).isEqualTo("$prioritiesPath/priorities.csv")
+        assertThat(configuration!!.priorities).isEqualTo("$prioritiesPath/priorities.csv")
         assertThat(configuration.capacities).isEqualTo("$capacityPath/capacities.csv")
         assertThat(configuration.scip).isEqualTo("scip")
     }
