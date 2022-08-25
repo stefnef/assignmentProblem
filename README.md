@@ -38,8 +38,15 @@ The capacity file contains all subjects with their maximal number of students (c
 
 `<Capacity of SubjectName 1>,<Capacity of SubjectName 1>,...`
 
+### Configuration File
+The priority and capacity file have to be set up in the `config.json` file
+which has to be in the same folder as the jar file. You can find an example file
+in `src/test/configuration/config.json`.
+
+It is also possible to configure a scip solver within the configuration file.
+
 ## Using JarFile
-`java -jar assignmentProblem-<version>.jar --prio=<priority file> --cap=<capacity file>`
+`java -jar assignmentProblem-<version>.jar`
 
 ## Output
 If successful all output files can be found in the directory `output`.
