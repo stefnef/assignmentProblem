@@ -1,6 +1,5 @@
 package de.hoersendung.steffen.assignmentProblem
 
-import de.hoersendung.steffen.assignmentProblem.configuration.OutputConfiguration
 import de.hoersendung.steffen.assignmentProblem.service.AssignmentProblemApplicationService
 import org.slf4j.Logger
 import org.springframework.boot.ApplicationArguments
@@ -14,8 +13,7 @@ import java.io.File
 @ConfigurationPropertiesScan
 class AssignmentProblemApplication(
     private val logger : Logger,
-    private val applicationService: AssignmentProblemApplicationService,
-    private val outputConfiguration: OutputConfiguration) : ApplicationRunner {
+    private val applicationService: AssignmentProblemApplicationService) : ApplicationRunner {
 
     override fun run(args: ApplicationArguments?) {
         if (!isArgumentListValid(args)) {
@@ -26,7 +24,6 @@ class AssignmentProblemApplication(
         val capacities = getFile(args, "cap") ?: return
         try {
             applicationService.solveProblem(priorities, capacities)
-            logger.info("Output files created at directory \"${outputConfiguration.directory}\"")
         } catch (e: Exception) {
             logger.error(e.message)
         }

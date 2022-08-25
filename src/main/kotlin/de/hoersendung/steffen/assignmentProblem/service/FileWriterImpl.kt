@@ -4,6 +4,7 @@ import de.hoersendung.steffen.assignmentProblem.configuration.OutputConfiguratio
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Priority
 import de.hoersendung.steffen.assignmentProblem.domain.entity.SolutionAssignment
 import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
+import org.slf4j.Logger
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
 import java.io.File
@@ -11,6 +12,7 @@ import java.io.FileOutputStream
 
 @Service
 class FileWriterImpl(
+    private val logger: Logger,
     private val outputConfiguration: OutputConfiguration) : FileWriter {
 
     override fun writeSubjectsData(subjects: List<Subject>) {
@@ -24,6 +26,7 @@ class FileWriterImpl(
             }
             writer.flush()
         }
+        logger.info("wrote subjects data file (${outputConfiguration.directory}/subjects.data)")
     }
 
     override fun writeStudentsData(priorities: List<Priority>) {
@@ -37,6 +40,7 @@ class FileWriterImpl(
             }
             writer.flush()
         }
+        logger.info("wrote students data file (${outputConfiguration.directory}/students.data)")
     }
 
     override fun writePriorityData(priorities: List<Priority>) {
@@ -50,6 +54,7 @@ class FileWriterImpl(
             }
             writer.flush()
         }
+        logger.info("wrote priorities data file (${outputConfiguration.directory}/priorities.data)")
     }
 
     override fun copyLinearProgramm() {
@@ -63,6 +68,7 @@ class FileWriterImpl(
                input.copyTo(output)
            }
         }
+        logger.info("copied zpl file (${outputConfiguration.directory}/assignmentProblem.zpl)")
     }
 
     override fun writeSolution(solution: List<SolutionAssignment>) {
@@ -77,6 +83,7 @@ class FileWriterImpl(
             }
             writer.flush()
         }
+        logger.info("wrote solution file (${outputConfiguration.directory}/solution.csv)")
     }
 
     private fun createOutputDirectoryIfNotExists() {

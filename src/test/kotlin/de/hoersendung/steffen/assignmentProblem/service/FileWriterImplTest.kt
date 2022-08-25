@@ -11,14 +11,18 @@ import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
+import org.slf4j.Logger
 import java.io.File
 
 internal class FileWriterImplTest {
 
     private val outputDirectory = "src/test/files/output/tmp"
     private val outputConfiguration = OutputConfiguration(directory = outputDirectory)
+    private val logger : Logger = mock()
 
-    private val fileWriter = FileWriterImpl(outputConfiguration)
+    private val fileWriter = FileWriterImpl(logger, outputConfiguration)
 
     @Test
     internal fun `it should write subjects to data file`() {
@@ -35,6 +39,8 @@ internal class FileWriterImplTest {
             assertThat(reader.readLine()).isEqualTo("sub_3 3")
             assertThat(reader.readLine()).isNull()
         }
+
+        verify(logger).info("wrote subjects data file (src/test/files/output/tmp/subjects.data)")
     }
 
     @Test
@@ -52,6 +58,7 @@ internal class FileWriterImplTest {
             assertThat(reader.readLine()).isNull()
         }
 
+        verify(logger).info("wrote students data file (src/test/files/output/tmp/students.data)")
     }
 
     @Test
@@ -70,6 +77,7 @@ internal class FileWriterImplTest {
             assertThat(reader.readLine()).isEqualTo("Bob_Q2 Sub_Second 20")
             assertThat(reader.readLine()).isNull()
         }
+        verify(logger).info("wrote priorities data file (src/test/files/output/tmp/priorities.data)")
     }
 
     @Test
@@ -78,6 +86,7 @@ internal class FileWriterImplTest {
 
         val file = File("${outputDirectory}/assignmentProblem.zpl")
         assertThat(file.exists()).isTrue
+        verify(logger).info("copied zpl file (src/test/files/output/tmp/assignmentProblem.zpl)")
     }
 
     @Test
@@ -126,6 +135,7 @@ internal class FileWriterImplTest {
             assertThat(reader.readLine()).isEqualTo("Carl,Q3,Curling,0")
             assertThat(reader.readLine()).isNull()
         }
+        verify(logger).info("wrote solution file (src/test/files/output/tmp/solution.csv)")
     }
 
     @AfterEach

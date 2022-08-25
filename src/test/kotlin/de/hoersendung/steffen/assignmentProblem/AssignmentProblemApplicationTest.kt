@@ -1,6 +1,5 @@
 package de.hoersendung.steffen.assignmentProblem
 
-import de.hoersendung.steffen.assignmentProblem.configuration.OutputConfiguration
 import de.hoersendung.steffen.assignmentProblem.service.AssignmentProblemApplicationService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -13,8 +12,7 @@ internal class AssignmentProblemApplicationTest {
 
     private val logger : Logger = mock()
     private val applicationService : AssignmentProblemApplicationService = mock()
-    private val outputConfiguration = OutputConfiguration(directory = "out")
-    private val assignmentProblemApplication = AssignmentProblemApplication(logger, applicationService, outputConfiguration)
+    private val assignmentProblemApplication = AssignmentProblemApplication(logger, applicationService)
 
     private val basePath = "src/test/files"
     private val prioritiesPath = "$basePath/priority"
@@ -32,7 +30,6 @@ internal class AssignmentProblemApplicationTest {
             assertThat(firstValue.name).isEqualTo("priorities.csv")
             assertThat(secondValue.name).isEqualTo("capacities.csv")
         }
-        verify(logger).info("Output files created at directory \"out\"")
     }
 
     @Test
