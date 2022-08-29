@@ -20,7 +20,7 @@ internal class ShellRunImplTest {
         ShellRunImpl.COMMAND = "ls"
 
         val rawOutput = runner.execute()
-        assertThat(rawOutput).contains("Running shell command failed")
+        assertThat(rawOutput).contains("some/directory\\assignmentProblem.zpl")
         verify(logger).info("executing 'ls -f some/directory/assignmentProblem.zpl'")
     }
 

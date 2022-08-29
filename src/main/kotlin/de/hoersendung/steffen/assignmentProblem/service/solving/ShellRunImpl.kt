@@ -1,10 +1,9 @@
 package de.hoersendung.steffen.assignmentProblem.service.solving
 
-import com.lordcodes.turtle.shellRun
 import de.hoersendung.steffen.assignmentProblem.configuration.OutputConfiguration
 import org.slf4j.Logger
 import org.springframework.stereotype.Service
-import java.io.File
+import ru.iopump.koproc.startProcess
 
 @Service
 class ShellRunImpl(
@@ -27,9 +26,20 @@ class ShellRunImpl(
 
     private fun runCommand() : String {
         logger.info("executing '$COMMAND -f ${outputConfiguration.directory}/assignmentProblem.zpl'")
-        val rawOutput = shellRun(COMMAND, listOf("-f", "assignmentProblem.zpl"), File(outputConfiguration.directory))
+        val rawOutput = "$COMMAND -f ${outputConfiguration.directory}\\assignmentProblem.zpl".startProcess { timeoutSec = 60 }
+
+        var output: String
+        var err: String
+        rawOutput.use {
+            output = rawOutput.readAvailableOut
+            err = rawOutput.readAvailableErrOut
+        }
+
         logger.info("finished external command")
-        return rawOutput
+        if(err.isNotBlank()) {
+            throw RuntimeException(err)
+        }
+        return output
     }
 
     private fun errorMessage(e: RuntimeException) =
