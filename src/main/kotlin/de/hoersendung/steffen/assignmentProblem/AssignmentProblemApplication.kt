@@ -4,7 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import de.hoersendung.steffen.assignmentProblem.configuration.ConfigFile
 import de.hoersendung.steffen.assignmentProblem.configuration.SolverConfiguration
 import de.hoersendung.steffen.assignmentProblem.service.AssignmentProblemApplicationService
-import de.hoersendung.steffen.assignmentProblem.service.solving.ShellRunImpl
+import de.hoersendung.steffen.assignmentProblem.util.process.ShellRunImpl
 import org.slf4j.Logger
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner

@@ -1,21 +1,21 @@
 package de.hoersendung.steffen.assignmentProblem.service
 
-import de.hoersendung.steffen.assignmentProblem.service.priority.PriorityApplicationService
-import de.hoersendung.steffen.assignmentProblem.service.solving.SolvingApplicationService
-import de.hoersendung.steffen.assignmentProblem.service.subject.SubjectApplicationService
+import de.hoersendung.steffen.assignmentProblem.domain.service.priority.PriorityService
+import de.hoersendung.steffen.assignmentProblem.domain.service.solving.SolvingService
+import de.hoersendung.steffen.assignmentProblem.domain.service.subject.SubjectService
 import org.springframework.stereotype.Service
 import java.io.File
 
 @Service
 class AssignmentProblemApplicationServiceImpl(
-    private val subjectApplicationService: SubjectApplicationService,
-    private val priorityApplicationService : PriorityApplicationService,
-    private val solvingApplicationService : SolvingApplicationService
+    private val subjectService: SubjectService,
+    private val priorityService : PriorityService,
+    private val solvingService : SolvingService
 ) : AssignmentProblemApplicationService {
 
     override fun solveProblem(priorities: File, capacities: File) {
-        subjectApplicationService.loadCapacities(capacities)
-        priorityApplicationService.loadPriorities(priorities)
-        solvingApplicationService.solve()
+        subjectService.loadCapacities(capacities)
+        priorityService.loadPriorities(priorities)
+        solvingService.solve()
     }
 }

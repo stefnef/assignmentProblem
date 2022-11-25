@@ -2,7 +2,7 @@ package de.hoersendung.steffen.assignmentProblem
 
 import de.hoersendung.steffen.assignmentProblem.configuration.ConfigFile
 import de.hoersendung.steffen.assignmentProblem.service.AssignmentProblemApplicationService
-import de.hoersendung.steffen.assignmentProblem.service.solving.ShellRunImpl
+import de.hoersendung.steffen.assignmentProblem.util.process.ShellRunImpl
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.*

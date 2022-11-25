@@ -1,8 +1,8 @@
 package de.hoersendung.steffen.assignmentProblem.defaults
 
-import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
-import de.hoersendung.steffen.assignmentProblem.domain.valueObject.Capacity
-import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
+import de.hoersendung.steffen.assignmentProblem.domain.model.entity.Subject
+import de.hoersendung.steffen.assignmentProblem.domain.model.valueObject.Capacity
+import de.hoersendung.steffen.assignmentProblem.domain.model.valueObject.SubjectName
 
 fun simpleSubject(name: String = "SubjectName", capacity: Int = 1) = Subject(SubjectName(name), Capacity(capacity))
 
