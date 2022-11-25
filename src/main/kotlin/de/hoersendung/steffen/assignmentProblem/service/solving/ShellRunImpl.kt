@@ -1,22 +1,23 @@
 package de.hoersendung.steffen.assignmentProblem.service.solving
 
 import de.hoersendung.steffen.assignmentProblem.configuration.OutputConfiguration
+import de.hoersendung.steffen.assignmentProblem.service.process.ProcessRunner
 import org.slf4j.Logger
 import org.springframework.stereotype.Service
-import ru.iopump.koproc.startProcess
 
 @Service
 class ShellRunImpl(
-    private val outputConfiguration : OutputConfiguration,
-    private val logger : Logger
+    private val outputConfiguration: OutputConfiguration,
+    private val processRunner: ProcessRunner,
+    private val logger: Logger
 ) : ShellRun {
 
     override fun execute(): String {
         return try {
             runCommand()
-        } catch (e: RuntimeException) {
+        } catch (e: Exception) {
             logger.error(e.message)
-            return errorMessage(e)
+            return errorMessage()
         }
     }
 
@@ -26,24 +27,15 @@ class ShellRunImpl(
 
     private fun runCommand() : String {
         logger.info("executing '$COMMAND -f ${outputConfiguration.directory}/assignmentProblem.zpl'")
-        val rawOutput = "$COMMAND -f ${outputConfiguration.directory}\\assignmentProblem.zpl".startProcess { timeoutSec = 60 }
 
-        var output: String
-        var err: String
-        rawOutput.use {
-            output = rawOutput.readAvailableOut
-            err = rawOutput.readAvailableErrOut
-        }
+        val result = processRunner.exec(arrayOf(COMMAND, "-f", "assignmentProblem.zpl"), outputConfiguration.directory)
 
         logger.info("finished external command")
-        if(err.isNotBlank()) {
-            throw RuntimeException(err)
-        }
-        return output
+        return result
     }
 
-    private fun errorMessage(e: RuntimeException) =
-        e.message ?: "could not run command \"$COMMAND -f ${outputConfiguration.directory}/assignmentProblem.zpl\""
+    private fun errorMessage() =
+        "could not run command \"$COMMAND -f ${outputConfiguration.directory}/assignmentProblem.zpl\""
 
     companion object {
         var COMMAND = ""
