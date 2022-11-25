@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "de.hoersendung.steffen"
-version = "1.0.2"
+version = "1.0.3"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
@@ -19,9 +19,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("com.lordcodes.turtle:turtle:0.7.0")
-    implementation("ru.iopump.koproc:koproc:1.1.1")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 }
