@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "de.hoersendung.steffen"
-version = "1.0.3"
+version = "1.1.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {

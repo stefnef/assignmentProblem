@@ -1,13 +1,13 @@
 package de.hoersendung.steffen.assignmentProblem.defaults
 
-import de.hoersendung.steffen.assignmentProblem.domain.entity.Assignment
-import de.hoersendung.steffen.assignmentProblem.domain.entity.Priority
-import de.hoersendung.steffen.assignmentProblem.domain.entity.Student
-import de.hoersendung.steffen.assignmentProblem.domain.entity.Subject
-import de.hoersendung.steffen.assignmentProblem.domain.valueObject.Capacity
-import de.hoersendung.steffen.assignmentProblem.domain.valueObject.PriorityValue
-import de.hoersendung.steffen.assignmentProblem.domain.valueObject.StudentName
-import de.hoersendung.steffen.assignmentProblem.domain.valueObject.SubjectName
+import de.hoersendung.steffen.assignmentProblem.domain.model.entity.Assignment
+import de.hoersendung.steffen.assignmentProblem.domain.model.entity.Priority
+import de.hoersendung.steffen.assignmentProblem.domain.model.entity.Student
+import de.hoersendung.steffen.assignmentProblem.domain.model.entity.Subject
+import de.hoersendung.steffen.assignmentProblem.domain.model.valueObject.Capacity
+import de.hoersendung.steffen.assignmentProblem.domain.model.valueObject.PriorityValue
+import de.hoersendung.steffen.assignmentProblem.domain.model.valueObject.StudentName
+import de.hoersendung.steffen.assignmentProblem.domain.model.valueObject.SubjectName
 
 fun simplePriority(studentName: String = "Bob",
                    quartal: String = "Q1",
@@ -17,7 +17,8 @@ fun simplePriority(studentName: String = "Bob",
     Priority(
         Assignment(
             Student(StudentName("${studentName}_$quartal")),
-            Subject(SubjectName(subjectName), Capacity(capacity))),
+            Subject(SubjectName(subjectName), Capacity(capacity))
+        ),
         PriorityValue(priorityValue)
 )
 
