@@ -1,6 +1,6 @@
-﻿Name,Jahrgang,Sportkurs_1,Sportkurs_2,Sportkurs_3,Sportkurs_4,Schwimmen
-Bond,Q1,-1,2,1,-1,-1
-Mueller,Q3,999,-1,-1,-1,-1
-Meyer,Q3,1,-1,-1,2,-1
-Potter,Q1,-1,-1,-1,-1,-999
-Schmidt,Q1,-1,-1,1,-1,2
+﻿Name;Jahrgang;Sportkurs_1;Sportkurs_2;Sportkurs_3;Sportkurs_4;Schwimmen
+Bond;Q1;-1;2;1;-1;-1
+Mueller;Q3;999;-1;-1;-1;-1
+Meyer;Q3;1;-1;-1;2;-1
+Potter;Q1;-1;-1;-1;-1;-999
+Schmidt;Q1;-1;-1;1;-1;2

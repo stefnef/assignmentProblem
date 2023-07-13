@@ -48,7 +48,7 @@ class PriorityServiceImpl(
     private fun BufferedReader.parseSubjects(): List<String> {
         val numberOfExpectedSubjects = subjectService.getNumberOfSubjects()
         val header = readLine() ?: throw IllegalArgumentException("file of priorities is empty")
-        val subjects = header.split(",").drop(2)
+        val subjects = header.split(SEPARATION).drop(2)
 
         if (subjects.size != numberOfExpectedSubjects) {
             throw java.lang.IllegalArgumentException(
@@ -64,7 +64,7 @@ class PriorityServiceImpl(
         line: String,
         subjects: List<String>
     ): Int {
-        val prioritiesOfStudent = line.split(",")
+        val prioritiesOfStudent = line.split(SEPARATION)
         val lineIndex = readLines + 1
         val numberOfExpectedSubjects = subjects.size
 
@@ -105,5 +105,9 @@ class PriorityServiceImpl(
                 priorityValue
             )
         )
+    }
+
+    companion object{
+        private const val SEPARATION = ";"
     }
 }

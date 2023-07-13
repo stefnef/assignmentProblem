@@ -74,11 +74,11 @@ class FileWriterImpl(
     override fun writeSolution(solution: List<SolutionAssignment>) {
         FileOutputStream("${outputConfiguration.directory}/solution.csv").apply {
             val writer = bufferedWriter()
-            writer.write("Student, Quartal, Subject, Priority\n")
+            writer.write("Student$SEPARATION Quartal$SEPARATION Subject$SEPARATION Priority\n")
             solution.sortedWith(compareBy( { it.quartal.value }, {it.student.value} )).forEach {
-                writer.write("${it.student.value},")
-                writer.write("${it.quartal.value},")
-                writer.write("${it.subjectName.value},")
+                writer.write("${it.student.value}$SEPARATION")
+                writer.write("${it.quartal.value}$SEPARATION")
+                writer.write("${it.subjectName.value}$SEPARATION")
                 writer.write("${it.priorityValue.value}\n")
             }
             writer.flush()
@@ -91,5 +91,9 @@ class FileWriterImpl(
         if (!directory.exists()) {
             directory.mkdirs()
         }
+    }
+
+    companion object{
+        private const val SEPARATION = ";"
     }
 }
