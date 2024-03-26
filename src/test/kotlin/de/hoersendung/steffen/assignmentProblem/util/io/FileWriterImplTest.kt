@@ -128,11 +128,11 @@ internal class FileWriterImplTest {
 
         file.inputStream().apply {
             val reader = bufferedReader()
-            assertThat(reader.readLine()).isEqualTo("Student, Quartal, Subject, Priority")
-            assertThat(reader.readLine()).isEqualTo("Zelda,Q1,Stretching,1")
-            assertThat(reader.readLine()).isEqualTo("Alice,Q2,Bouldern,999")
-            assertThat(reader.readLine()).isEqualTo("Bob,Q3,Billard,3")
-            assertThat(reader.readLine()).isEqualTo("Carl,Q3,Curling,0")
+            assertThat(reader.readLine()).isEqualTo("Student; Quartal; Subject; Priority")
+            assertThat(reader.readLine()).isEqualTo("Zelda;Q1;Stretching;1")
+            assertThat(reader.readLine()).isEqualTo("Alice;Q2;Bouldern;999")
+            assertThat(reader.readLine()).isEqualTo("Bob;Q3;Billard;3")
+            assertThat(reader.readLine()).isEqualTo("Carl;Q3;Curling;0")
             assertThat(reader.readLine()).isNull()
         }
         verify(logger).info("wrote solution file (src/test/files/output/tmp/solution.csv)")

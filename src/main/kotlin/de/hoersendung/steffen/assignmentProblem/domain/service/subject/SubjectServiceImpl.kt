@@ -48,6 +48,10 @@ class SubjectServiceImpl(
 
     private fun BufferedReader.parseLine(errorMessage: String): List<String> {
         val line = this.readLine() ?: throw IllegalArgumentException(errorMessage)
-        return line.split(",")
+        return line.split(SEPARATION)
+    }
+
+    companion object{
+        private const val SEPARATION = ";"
     }
 }
